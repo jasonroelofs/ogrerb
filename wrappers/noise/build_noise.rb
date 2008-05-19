@@ -11,12 +11,12 @@ Extension.new "noise" do |e|
   e.module "Noise" do |m|
     m.namespace "noise"
 
-#    m.module "Model" do |model|
-#      model.namespace "model"
-#    end
-#
-#    m.module "Module" do |mod|
-#      mod.namespace "module"
-#    end
+    m.module "Model" do |model|
+      model.namespace "noise::model"
+    end
+
+    m.module "Module" do |mod|
+      mod.namespace "noise::module"
+    end
   end
 end
