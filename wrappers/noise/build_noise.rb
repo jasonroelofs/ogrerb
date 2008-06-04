@@ -6,7 +6,9 @@ include RbPlusPlus
 Extension.new "noise" do |e|
   e.working_dir = File.expand_path(File.join(File.dirname(__FILE__),
                                     "..", "..", "generated", "noise"))
-  e.sources File.expand_path(File.dirname(__FILE__) + "/../../tmp/noise/include/noise.h")
+  e.sources File.expand_path(File.dirname(__FILE__) + "/../../tmp/noise/include/noise.h"),
+    :library_paths => File.expand_path(File.dirname(__FILE__) + "/../../tmp/noise/lib"),
+    :libraries => "noise"
 
 #  e.writer_mode :single
 
@@ -26,3 +28,4 @@ Extension.new "noise" do |e|
     end
   end
 end
+
