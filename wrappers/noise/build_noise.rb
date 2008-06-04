@@ -8,15 +8,21 @@ Extension.new "noise" do |e|
                                     "..", "..", "generated", "noise"))
   e.sources File.expand_path(File.dirname(__FILE__) + "/../../tmp/noise/include/noise.h")
 
+#  e.writer_mode :single
+
   e.module "Noise" do |m|
     m.namespace "noise"
 
     m.module "Model" do |model|
-      model.namespace "noise::model"
+      node = model.namespace "noise::model"
     end
 
     m.module "Module" do |mod|
-      mod.namespace "noise::module"
+      node = mod.namespace "noise::module"
+
+      # Ignore pure virtual
+      node.classes("Module").methods("GetSourceModuleCount").ignore
+      node.classes("Module").methods("GetValue").ignore
     end
   end
 end
