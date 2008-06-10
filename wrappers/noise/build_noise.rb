@@ -16,11 +16,11 @@ Extension.new "noise" do |e|
     m.namespace "noise"
 
     m.module "Model" do |model|
-      node = model.namespace "noise::model"
+      node = model.namespace "model"
     end
 
     m.module "Module" do |mod|
-      node = mod.namespace "noise::module"
+      node = mod.namespace "module"
 
       # Ignore pure virtual
       node.classes("Module").methods("GetSourceModuleCount").ignore
