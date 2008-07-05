@@ -3,14 +3,15 @@
 require 'rbplusplus'
 include RbPlusPlus
 
-Extension.new "noise" do |e|
-  e.working_dir = File.expand_path(File.join(File.dirname(__FILE__),
-                                    "..", "..", "generated", "noise"))
-  e.sources File.expand_path(File.dirname(__FILE__) + "/../../tmp/noise/include/noise.h"),
-    :library_paths => File.expand_path(File.dirname(__FILE__) + "/../../tmp/noise/lib"),
-    :libraries => "noise"
+OGRE_RB_ROOT = File.expand_path(File.join("..", ".."))
 
-#  e.writer_mode :single
+NOISE_DIR = File.join(OGRE_RB_ROOT, "tmp", "noise")
+
+Extension.new "noise" do |e|
+  e.working_dir = File.join(OGRE_RB_ROOT, "generated", "noise")
+  e.sources File.join(NOISE_DIR, "include/noise.h"),
+    :library_paths => File.join(OGRE_RB_ROOT, "lib", "noise"),
+    :libraries => "noise"
 
   e.module "Noise" do |m|
     m.namespace "noise"
