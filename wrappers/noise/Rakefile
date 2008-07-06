@@ -32,7 +32,9 @@ namespace :noise do
 
     cd File.join(OGRE_RB_ROOT, "tmp", "noise") do
       sh "CXXFLAGS='-O2 -fomit-frame-pointer' make clean all"
-      cp Dir["lib/*"], File.join(OGRE_RB_ROOT, "lib", "noise")
+      cp Dir["lib/libnoise.so*"], File.join(OGRE_RB_ROOT, "lib", "noise")
+      cp "lib/libnoise.so.0.3", File.join(OGRE_RB_ROOT, "lib", "noise", "libnoise.so")
+      cp "lib/libnoise.so.0.3", File.join(OGRE_RB_ROOT, "lib", "noise", "libnoise.so.0")
     end
   end
 end
