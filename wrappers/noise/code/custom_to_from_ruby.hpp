@@ -9,4 +9,7 @@
 template<>
 std::string* from_ruby<std::string*>(Rice::Object x);
 
+template<>
+const std::string* from_ruby<const std::string*>(Rice::Object x);
+
 #endif
