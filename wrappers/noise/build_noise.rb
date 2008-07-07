@@ -37,10 +37,8 @@ Extension.new "noise" do |e|
     m.module "Utils" do |utils|
       node = utils.namespace "utils"
       node.classes("NoiseMapBuilder").methods("SetCallback").ignore
-#      node.classes("WriterBMP").ignore
-#      node.classes("WriterTER").ignore
 
-      # Ignore all but the default constructor
+      # Ignore all but the default constructors
       node.classes("NoiseMap").constructors.find(:arguments => [nil, nil]).ignore
       node.classes("NoiseMap").constructors.find(:arguments => [nil]).ignore
 
