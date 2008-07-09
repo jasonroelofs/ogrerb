@@ -1,5 +1,3 @@
-OGRE_RB_ROOT = File.expand_path(File.join("..", ".."))
-
 namespace :noise do
 
   desc "clean up libnoise" 

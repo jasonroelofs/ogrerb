@@ -2,7 +2,7 @@
 
 # See http://libnoise.sourceforge.net/tutorials/tutorial3.html
 
-require 'noise'
+require File.dirname(__FILE__) + '/../../lib/noise'
 
 my_module = Noise::Module::Perlin.new
 
@@ -36,14 +36,14 @@ writer.write_dest_file
 
 # Add color to the height map
 renderer.clear_gradient
-renderer.add_gradient_point(-1.0000, Noise::Utils::Color.new(  0,   0, 128, 255)); # deeps
-renderer.add_gradient_point(-0.2500, Noise::Utils::Color.new(  0,   0, 255, 255)); # shallow
-renderer.add_gradient_point( 0.0000, Noise::Utils::Color.new(  0, 128, 255, 255)); # shore
-renderer.add_gradient_point( 0.0625, Noise::Utils::Color.new(240, 240,  64, 255)); # sand
-renderer.add_gradient_point( 0.1250, Noise::Utils::Color.new( 32, 160,   0, 255)); # grass
-renderer.add_gradient_point( 0.3750, Noise::Utils::Color.new(224, 224,   0, 255)); # dirt
-renderer.add_gradient_point( 0.7500, Noise::Utils::Color.new(128, 128, 128, 255)); # rock
-renderer.add_gradient_point( 1.0000, Noise::Utils::Color.new(255, 255, 255, 255)); # snow
+renderer.add_gradient_point(-1.0000, Noise::Utils::Color.new(  0,   0, 128, 255)) # deeps
+renderer.add_gradient_point(-0.2500, Noise::Utils::Color.new(  0,   0, 255, 255)) # shallow
+renderer.add_gradient_point( 0.0000, Noise::Utils::Color.new(  0, 128, 255, 255)) # shore
+renderer.add_gradient_point( 0.0625, Noise::Utils::Color.new(240, 240,  64, 255)) # sand
+renderer.add_gradient_point( 0.1250, Noise::Utils::Color.new( 32, 160,   0, 255)) # grass
+renderer.add_gradient_point( 0.3750, Noise::Utils::Color.new(224, 224,   0, 255)) # dirt
+renderer.add_gradient_point( 0.7500, Noise::Utils::Color.new(128, 128, 128, 255)) # rock
+renderer.add_gradient_point( 1.0000, Noise::Utils::Color.new(255, 255, 255, 255)) # snow
 renderer.render
 
 writer.set_dest_filename("sample2_color.bmp")

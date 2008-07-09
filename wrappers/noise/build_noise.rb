@@ -4,7 +4,7 @@ require 'rbplusplus'
 require 'fileutils'
 include RbPlusPlus
 
-OGRE_RB_ROOT = File.expand_path(File.join("..", ".."))
+OGRE_RB_ROOT = File.expand_path(File.join(File.dirname(__FILE__), "..", ".."))
 
 NOISE_DIR = File.join(OGRE_RB_ROOT, "tmp", "noise")
 
