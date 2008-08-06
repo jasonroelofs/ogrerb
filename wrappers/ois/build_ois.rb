@@ -16,7 +16,8 @@ Extension.new "ois" do |e|
       File.join(HERE_DIR, "code", "custom_to_from_ruby.cpp"), 
       File.join(HERE_DIR, "code", "custom_to_from_ruby.hpp")
     ],
-    :includes => File.join(HERE_DIR, "code", "custom_to_from_ruby.hpp")
+    :includes => File.join(HERE_DIR, "code", "custom_to_from_ruby.hpp"),
+    :libraries => "OIS"
 
   e.module "OIS" do |m|
     node = m.namespace "OIS"
@@ -27,8 +28,10 @@ Extension.new "ois" do |e|
     # Hmm, InputManager has protected destructor, causing problems. Ignore them for now
     node.classes("Object").methods("getCreator").ignore
 
-    # Crap, this isn't good, but I want to see it compile
+    # Crap, this isn't good, this class is how everything starts, but I want to see it compile
     node.classes("InputManager").ignore
+
+    node.classes("Exception").ignore
     
   end
 end
