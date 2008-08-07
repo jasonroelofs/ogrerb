@@ -12,11 +12,7 @@ Extension.new "ois" do |e|
   e.working_dir = File.join(OGRE_RB_ROOT, "generated", "ois")
 
   e.sources File.join(OIS_DIR, "include", "OIS", "OIS.h"),
-    :include_source_files => [
-      File.join(HERE_DIR, "code", "custom_to_from_ruby.cpp"), 
-      File.join(HERE_DIR, "code", "custom_to_from_ruby.hpp")
-    ],
-    :includes => File.join(HERE_DIR, "code", "custom_to_from_ruby.hpp"),
+    :include_source_dir => File.join(HERE_DIR, "code"),
     :libraries => "OIS"
 
   e.module "OIS" do |m|
