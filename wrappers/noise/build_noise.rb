@@ -1,5 +1,6 @@
 # Wrap the libnoise library into Ruby
 
+require 'rubygems'
 require 'rbplusplus'
 require 'fileutils'
 include RbPlusPlus
@@ -30,7 +31,6 @@ Extension.new "noise" do |e|
 
     m.module "Utils" do |utils|
       node = utils.namespace "utils"
-      node.classes("NoiseMapBuilder").methods("SetCallback").ignore
 
       # Ignore all but the default constructors
       node.classes("NoiseMap").constructors.find(:arguments => [nil, nil]).ignore
