@@ -1,3 +1,4 @@
+require 'rubygems'
 require 'rbplusplus'
 require 'fileutils'
 include RbPlusPlus
@@ -13,7 +14,9 @@ Extension.new "ois" do |e|
 
   e.sources File.join(OIS_DIR, "include", "OIS", "OIS.h"),
     :include_source_dir => File.join(HERE_DIR, "code"),
-    :libraries => "OIS"
+    :library_paths => File.join(OIS_DIR, "lib"),
+    :libraries => "OIS",
+    :ldflags => "-shared"
 
   e.module "OIS" do |m|
     node = m.namespace "OIS"
@@ -24,11 +27,9 @@ Extension.new "ois" do |e|
     # Hmm, InputManager has protected destructor, causing problems. Ignore them for now
     node.classes("Object").methods("getCreator").ignore
 
-    # Crap, this isn't good, this class is how everything starts, but I want to see it compile
-    node.classes("InputManager").ignore
+    node.classes("InputManager").methods("listFreeDevices").ignore
 
     node.classes("Exception").ignore
-    
   end
 end
 

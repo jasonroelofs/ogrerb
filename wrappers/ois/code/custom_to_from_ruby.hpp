@@ -6,5 +6,4 @@
 
 template<>
 Rice::Object to_ruby<short int>(short int const & a);
-
 #endif
