@@ -1,0 +1,2 @@
+Notes:
+ - Need to manually update all static consts to include definitions in the .cpp file. I'll get a patch file made soon to do this automatically with rake ois:setup
