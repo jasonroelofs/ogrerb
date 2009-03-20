@@ -15,6 +15,8 @@ Extension.new "ois" do |e|
   e.sources File.join(OIS_DIR, "include", "OIS", "OIS.h"),
     :include_source_dir => File.join(HERE_DIR, "code"),
     :library_paths => File.join(OIS_DIR, "lib"),
+    # For our custom code in code/ to find OIS correctly
+    :include_paths => File.join(OIS_DIR, "include"),
     :libraries => "OIS",
     :ldflags => "-shared"
 
