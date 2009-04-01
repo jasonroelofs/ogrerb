@@ -1,5 +1,6 @@
 # Wrap Ogre!
 
+require 'rubygems'
 require 'rbplusplus'
 require 'fileutils'
 include RbPlusPlus
@@ -21,11 +22,8 @@ Extension.new "ogre" do |e|
   e.sources File.join(OGRE_DIR, "include", "OGRE", "Ogre.h"),
     :include_paths => File.join(OGRE_RB_ROOT, "lib", "ogre", "include", "OGRE"),
     :library_paths => File.join(OGRE_RB_ROOT, "lib", "ogre", "lib"),
-    :include_source_files => [
-      File.join(OGRE_DIR, "code", "custom_to_from_ruby.cpp"), 
-      File.join(OGRE_DIR, "code", "custom_to_from_ruby.hpp")
-    ],
-    :includes => File.join(HERE_DIR, "code", "custom_to_from_ruby.hpp")
+    :include_source_dir => File.join(OGRE_DIR, "code"),
+    :libraries => "Ogre"
 
   e.module "Ogre" do |ogre|
     node = ogre.namespace "Ogre"
@@ -71,5 +69,16 @@ Extension.new "ogre" do |e|
 
     # Abstract classes that are abstract via inheritance
     node.classes("SphereSceneQuery").ignore
+
+    # Ignore class definitions created by effectively protected variables
+    %w(
+      RadixSort
+    ).each do |klass|
+      node.classes.find(:all, :name => /^#{klass}/).ignore
+    end
+
+    # TODO Hand build wrappers for the _Iterator classes, we can't auto-gen
+    # the wrapping for this stuff and it only blows up
+    node.classes.find(:all, :name => /Iterator/).ignore
   end
 end
