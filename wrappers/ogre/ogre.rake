@@ -1,6 +1,6 @@
 namespace :ogre do
 
-  OGRE_DOWNLOAD = "ogre-v1-6-1.tar.bz2"
+  OGRE_DOWNLOAD = "ogre-v1-6-2.tar.bz2"
 
   desc "clean up ogre libs" 
   task :clean do
