@@ -4,17 +4,15 @@ namespace :noise do
   task :clean do
     rm_rf File.join(OGRE_RB_ROOT, "lib", "noise")
     rm_rf File.join(OGRE_RB_ROOT, "tmp", "noise")
-    rm_rf File.join(OGRE_RB_ROOT, "tmp", "downloads")
+    sh "rm -f #{File.join(OGRE_RB_ROOT, "tmp", "downloads", "libnoise*")}"
+    sh "rm -f #{File.join(OGRE_RB_ROOT, "tmp", "libnoise*")}"
+    rm_rf File.join(OGRE_RB_ROOT, "tmp", "COPYING.txt")
   end
 
   desc "bootstrap the required directory structure"
-  task :bootstrap do
-    begin
-      mkdir File.join(OGRE_RB_ROOT, "tmp", "downloads")
-      mkdir File.join(OGRE_RB_ROOT, "lib", "noise")
-    rescue
-      # already exist
-    end
+  task :bootstrap => :clean do
+    mkdir_p File.join(OGRE_RB_ROOT, "tmp", "downloads")
+    mkdir_p File.join(OGRE_RB_ROOT, "lib", "noise")
   end
 
   desc "setup libnoise for wrapping"
@@ -29,7 +27,7 @@ namespace :noise do
     end
 
     cd File.join(OGRE_RB_ROOT, "tmp", "noise") do
-      sh "CXXFLAGS='-O2 -fomit-frame-pointer' make clean all"
+      sh "CXXFLAGS='-O2 -fomit-frame-pointer' make all"
       cp Dir["lib/libnoise.so*"], File.join(OGRE_RB_ROOT, "lib", "noise")
       cp "lib/libnoise.so.0.3", File.join(OGRE_RB_ROOT, "lib", "noise", "libnoise.so")
       cp "lib/libnoise.so.0.3", File.join(OGRE_RB_ROOT, "lib", "noise", "libnoise.so.0")
