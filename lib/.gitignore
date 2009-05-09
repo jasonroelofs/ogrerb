@@ -1,3 +1,5 @@
 noise
-ogre
+ogre/bin
+ogre/include
+ogre/lib
 ois
