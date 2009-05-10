@@ -4,20 +4,18 @@ namespace :ogre do
 
   desc "clean up ogre libs" 
   task :clean do
-    rm_rf File.join(OGRE_RB_ROOT, "lib", "ogre")
+    rm_rf File.join(OGRE_RB_ROOT, "lib", "ogre", "bin")
+    rm_rf File.join(OGRE_RB_ROOT, "lib", "ogre", "include")
+    rm_rf File.join(OGRE_RB_ROOT, "lib", "ogre", "lib")
     rm_rf File.join(OGRE_RB_ROOT, "tmp", "ogre")
-    rm_rf File.join(OGRE_RB_ROOT, "tmp", "downloads")
+    rm_rf File.join(OGRE_RB_ROOT, "tmp", "downloads", OGRE_DOWNLOAD)
     rm_rf File.join(OGRE_RB_ROOT, "tmp", OGRE_DOWNLOAD)
   end
 
   desc "bootstrap the required directory structure"
   task :bootstrap do
-    begin
-      mkdir File.join(OGRE_RB_ROOT, "tmp", "downloads")
-      mkdir File.join(OGRE_RB_ROOT, "lib", "ogre")
-    rescue
-      # already exist
-    end
+    mkdir_p File.join(OGRE_RB_ROOT, "tmp", "downloads")
+    mkdir_p File.join(OGRE_RB_ROOT, "lib", "ogre")
   end
 
   desc "setup libnoise for wrapping"
