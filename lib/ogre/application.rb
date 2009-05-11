@@ -81,7 +81,7 @@ module Ogre
 		# render window
 		def configure
 			return false unless @root.show_config_dialog
-			@window = @root.initialise(true)
+			@window = @root.initialise(true, "Ogre.rb Render Window", "")
 			true
 		end
 
