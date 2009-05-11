@@ -1,5 +1,5 @@
 require File.join(File.dirname(__FILE__),'..','ogre')
-require File.join(File.dirname(__FILE__),'application_frame_listener')
+#require 'application_frame_listener'
 
 module Ogre
 
@@ -130,7 +130,7 @@ module Ogre
 					end
 
 					key, value = line.split("=")
-					ResourceGroupManager.instance.add_resource_location(value, key, section)
+					ResourceGroupManager.instance.add_resource_location(value, key, section, false)
 				end
 			end
 		end
