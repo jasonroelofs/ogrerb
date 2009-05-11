@@ -2,4 +2,5 @@ noise
 ogre/bin
 ogre/include
 ogre/lib
+ogre/*.so
 ois
