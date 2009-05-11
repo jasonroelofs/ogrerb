@@ -1,0 +1,14 @@
+material RustySteel
+{
+	technique
+	{
+		pass
+		{
+
+			texture_unit
+			{
+				texture RustySteel.jpg
+			}
+		}
+	}
+}

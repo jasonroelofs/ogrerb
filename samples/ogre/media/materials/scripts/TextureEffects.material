@@ -1,0 +1,15 @@
+material TextureEffect2
+{
+	technique
+	{
+		pass
+		{
+
+			texture_unit
+			{
+				texture Water02.jpg
+				scroll_anim 0.5 0
+			}
+		}
+	}
+}

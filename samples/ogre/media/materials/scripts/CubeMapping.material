@@ -1,0 +1,34 @@
+material SceneSkyBox2
+{
+	technique
+	{
+		pass
+		{
+			lighting off
+			depth_write off
+
+			texture_unit
+			{
+				cubic_texture cubescene_fr.jpg cubescene_bk.jpg cubescene_lf.jpg cubescene_rt.jpg cubescene_up.jpg cubescene_dn.jpg separateUV
+				tex_address_mode clamp
+			}
+		}
+	}
+}
+material SceneCubeMap2
+{
+	technique
+	{
+		pass
+		{
+			lighting off
+
+			texture_unit
+			{
+				cubic_texture cubescene.jpg combinedUVW
+				tex_address_mode clamp
+				env_map cubic_reflection
+			}
+		}
+	}
+}

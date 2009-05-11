@@ -1,0 +1,91 @@
+material nx.cube.shadows
+{
+
+	// This is the preferred technique which uses both vertex and
+	// fragment programs, supports coloured lights
+	technique
+	{
+		// Base ambient pass
+		pass
+		{
+			// base colours, not needed for rendering, but as information
+			// to lighting pass categorisation routine
+			ambient 1.000000 0.8 0.200000
+			diffuse 1.000000 0.769854 0.000000
+			specular 0.500000 0.246996 0.000000 30.500000
+			// Really basic vertex program
+			vertex_program_ref Ogre/BasicVertexPrograms/AmbientOneTextureUnified
+			{
+				param_named fixedDepthBias float 0
+				param_named gradientClamp float 0
+				param_named gradientScaleBias float 0
+			}
+			
+		}
+		// Now do the lighting pass
+		// NB we don't do decal texture here because this is repeated per light
+		pass lighting
+		{
+			// base colours, not needed for rendering, but as information
+			// to lighting pass categorisation routine
+			ambient 0 0 0 
+			
+			// do this for each light
+			iteration once_per_light
+
+		
+			scene_blend add
+
+
+		}
+		
+		// Decal pass
+		pass
+		{
+			// base colours, not needed for rendering, but as information
+			// to lighting pass categorisation routine
+			lighting off
+			// Really basic vertex program
+			vertex_program_ref Ogre/BasicVertexPrograms/AmbientOneTextureUnified
+			{
+				param_named fixedDepthBias float 0
+				param_named gradientClamp float 0
+				param_named gradientScaleBias float 0
+			}
+			scene_blend dest_colour zero
+
+			texture_unit
+			{
+				texture nx.cube.png
+			}
+		}
+	}
+
+
+}
+
+material nx.cube
+{
+	technique
+	{
+		pass
+		{
+			ambient 1.000000 0.8 0.200000
+			diffuse 1.000000 0.769854 0.000000
+			specular 0.500000 0.246996 0.000000 30.500000
+		}
+	}
+}
+
+material nx.cube.alt
+{
+	technique
+	{
+		pass
+		{
+			ambient 1.000000 0.8 0.200000
+			diffuse 1.000000 0.769854 0.000000
+			specular 0.500000 0.246996 0.000000 30.500000
+		}
+	}
+}

@@ -1,0 +1,63 @@
+material GrassFloor
+{
+	technique
+	{
+		pass
+		{
+			texture_unit
+			{
+				texture grass_1024.jpg
+			}
+		}
+	}
+}
+
+vertex_program GrassWaverVp cg
+{
+	source Grass.cg
+	entry_point grass_vp
+	profiles vs_1_1 arbvp1
+}
+
+material GrassBlades
+{
+	// Vertex program waving grass
+    technique
+    {
+			pass
+			{
+				vertex_program_ref GrassWaverVp
+				{
+					param_named_auto worldViewProj worldviewproj_matrix
+					param_named_auto ambient ambient_light_colour
+					param_named_auto objSpaceLight light_position_object_space 0
+					param_named_auto lightColour light_diffuse_colour 0
+					param_named_auto offset custom 999
+				}
+				alpha_rejection greater 150 
+				scene_blend alpha_blend
+				cull_hardware none
+				cull_software none
+				texture_unit
+				{
+						texture gras_02.png 
+				}
+			}
+    }
+
+	// Non-vertex program technique (no waving)
+	technique
+    {
+        pass
+        {
+			alpha_rejection greater 150 
+			scene_blend alpha_blend
+		    cull_hardware none
+            cull_software none
+            texture_unit
+            {
+                texture gras_02.png 
+            }
+        }
+    }
+}

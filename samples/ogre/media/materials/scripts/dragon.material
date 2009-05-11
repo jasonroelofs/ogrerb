@@ -1,0 +1,42 @@
+material Material #8
+{
+	technique
+	{
+		pass
+		{
+
+			texture_unit
+			{
+				texture BODY.jpg
+			}
+		}
+	}
+}
+material Material #3
+{
+	technique
+	{
+		pass
+		{
+
+			texture_unit
+			{
+				texture HEAD4.jpg
+			}
+		}
+	}
+}
+material Material #9
+{
+	technique
+	{
+		pass
+		{
+
+			texture_unit
+			{
+				texture LEGS.jpg
+			}
+		}
+	}
+}

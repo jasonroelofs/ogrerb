@@ -1,0 +1,14 @@
+material 2 - Default
+{
+	technique
+	{
+		pass
+		{
+
+			texture_unit
+			{
+				texture MtlPlat2.jpg
+			}
+		}
+	}
+}

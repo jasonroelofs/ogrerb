@@ -1,0 +1,14 @@
+material Material__25
+{
+	technique
+	{
+		pass
+		{
+
+			texture_unit
+			{
+				texture texmap2.jpg
+			}
+		}
+	}
+}
