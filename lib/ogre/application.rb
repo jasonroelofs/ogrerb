@@ -73,7 +73,7 @@ module Ogre
 			create_resource_listener
 			load_resources
 			create_scene
-			create_frame_listener
+#			create_frame_listener
 			true
 		end
 
