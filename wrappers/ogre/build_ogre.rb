@@ -24,7 +24,7 @@ Extension.new "ogre" do |e|
     # Special define for hiding tr1 includes for gcc 4.3 which gccxml doesn't like
     :cxxflags => "-D__OGRERB_BUILD" 
 
-  e.module "ogre" do |ogre|
+  e.module "Ogre" do |ogre|
     node = ogre.namespace "Ogre"
 
     # Methods on the Ogre namespace we don't need
