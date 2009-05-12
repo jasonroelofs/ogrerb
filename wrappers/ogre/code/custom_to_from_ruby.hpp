@@ -29,4 +29,7 @@ Rice::Object to_ruby<Ogre::ResourceGroupManager>(const Ogre::ResourceGroupManage
  */
 
 
+template<>
+Rice::Object to_ruby<Ogre::ViewPoint >(Ogre::ViewPoint const & a);
+
 #endif

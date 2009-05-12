@@ -86,7 +86,7 @@ module Ogre
 		end
 
 		def choose_scene_manager
-			@scene_manager = @root.create_scene_manager(ST_GENERIC, "ExampleSMInstance")
+			@scene_manager = @root.create_scene_manager_0("DefaultSceneManager", "ExampleSMInstance")
 		end
 
 		def create_camera

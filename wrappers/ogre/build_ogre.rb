@@ -35,6 +35,7 @@ Extension.new "ogre" do |e|
     # How I'm going about this massive task:
     #  1) Ignore *everything*
     ogre.classes.ignore
+    ogre.structs.ignore
 
     #  2) Start unignoring only the parts I need for a given demo I'm working on
 
@@ -96,6 +97,30 @@ Extension.new "ogre" do |e|
     # so ignore
     rgm.methods("_notifyWorldGeometryPrepareStageStarted").ignore
     rgm.methods("_notifyWorldGeometryPrepareStageEnded").ignore
+
+    ##
+    # RenderWindow
+    ##
+    rw = ogre.classes("RenderWindow")
+    rw.unignore
+
+    ##
+    # SceneManager
+    ##
+    scene_manager = ogre.classes("SceneManager")
+    scene_manager.unignore
+
+    scene_manager.methods("getOption").ignore
+    scene_manager.methods("setOption").ignore
+
+    # STL Interators, as usual
+    scene_manager.methods.find(:name => /Iterator$/).ignore
+
+    ##
+    # ViewPoint (needed by SceneManager)
+    ##
+    viewpoint = ogre.structs("ViewPoint")
+    viewpoint.unignore
   end
 end
 

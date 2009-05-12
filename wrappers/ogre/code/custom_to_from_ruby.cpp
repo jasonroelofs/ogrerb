@@ -32,3 +32,9 @@ Rice::Object to_ruby<Ogre::ResourceGroupManager>(const Ogre::ResourceGroupManage
 /**
  * End Singletons
  */
+
+
+template<>
+Rice::Object to_ruby<Ogre::ViewPoint >(Ogre::ViewPoint const & a) {
+	return Rice::Data_Object<Ogre::ViewPoint >((Ogre::ViewPoint *)&a, Rice::Data_Type<Ogre::ViewPoint >::klass(), 0, 0);
+}
