@@ -24,6 +24,9 @@ Rice::Object to_ruby<Ogre::Root>(const Ogre::Root& r);
 template<>
 Rice::Object to_ruby<Ogre::ResourceGroupManager>(const Ogre::ResourceGroupManager& r);
 
+template<>
+Rice::Object to_ruby<Ogre::TextureManager>(const Ogre::TextureManager& r);
+
 /**
  * End Singletons
  */
@@ -31,5 +34,8 @@ Rice::Object to_ruby<Ogre::ResourceGroupManager>(const Ogre::ResourceGroupManage
 
 template<>
 Rice::Object to_ruby<Ogre::ViewPoint >(Ogre::ViewPoint const & a);
+
+template<>
+Rice::Object to_ruby<Ogre::Degree >(Ogre::Degree const & a);
 
 #endif

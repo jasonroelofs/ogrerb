@@ -92,9 +92,9 @@ module Ogre
 		def create_camera
 			@camera = @scene_manager.create_camera("PlayerCam")
 
-			@camera.set_position(0, 0, 500)
+			@camera.set_position_0(0, 0, 500)
 			# Look along the -Z axis
-			@camera.look_at(Vector3.new(0, 0, -300))
+			@camera.look_at_1(0, 0, -300)
 			@camera.set_near_clip_distance 5
 		end
 
@@ -112,8 +112,8 @@ module Ogre
 		end
 
 		def create_viewports
-			vp = @window.add_viewport(@camera)
-			vp.set_background_colour ColourValue.new(0,0,0)
+			vp = @window.add_viewport(@camera, 0, 0.0, 0.0, 1.0, 1.0)
+			vp.set_background_colour ColourValue.new(0,0,0,0)
 
 			@camera.set_aspect_ratio( (vp.get_actual_width * 1.0) / (vp.get_actual_height * 1.0) )
 		end

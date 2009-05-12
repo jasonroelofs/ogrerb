@@ -99,6 +99,14 @@ Extension.new "ogre" do |e|
     rgm.methods("_notifyWorldGeometryPrepareStageEnded").ignore
 
     ##
+    # RenderTarget (Superclass of RenderWindow)
+    ##
+    rt = ogre.classes("RenderTarget")
+    rt.unignore
+
+    rt.methods("getCustomAttribute").ignore
+
+    ##
     # RenderWindow
     ##
     rw = ogre.classes("RenderWindow")
@@ -121,6 +129,80 @@ Extension.new "ogre" do |e|
     ##
     viewpoint = ogre.structs("ViewPoint")
     viewpoint.unignore
+
+    ##
+    # Viewport
+    ##
+    viewport = ogre.classes("Viewport")
+    viewport.unignore
+
+    viewport.methods("_getRenderQueueInvocationSequence").ignore
+
+    ## 
+    # Frustum (superclass of Camera)
+    ##
+    frustum = ogre.classes("Frustum")
+    frustum.unignore
+
+    ##
+    # Camera
+    ##
+    camera = ogre.classes("Camera")
+    camera.unignore
+
+    # STL
+    camera.methods("getWindowPlanes").ignore
+
+    ##
+    # ColourValue
+    ##
+    ogre.classes("ColourValue").unignore
+
+    ##
+    # PlaneBoundedVolume (Camera)
+    ##
+    pbv = ogre.classes("PlaneBoundedVolume")
+    pbv.unignore
+
+    pbv.methods("intersects").ignore
+
+    ##
+    # Vector3
+    ##
+    vec3 = ogre.classes("Vector3")
+    vec3.unignore
+
+    ogre.classes("Radian").unignore
+    ogre.classes("Degree").unignore
+
+    ##
+    # TextureManager
+    ##
+    tex_man = ogre.classes("TextureManager")
+    tex_man.unignore
+
+    tex_man.methods("getSingleton").wrap_as("instance")
+    tex_man.methods("getSingletonPtr").ignore
+
+    # std::pair
+    tex_man.methods("createOrRetrieve").ignore
+
+    ##
+    # Plane
+    ##
+    plane = ogre.classes("Plane")
+    plane.unignore
+
+    ##
+    # Light
+    ##
+    light = ogre.classes("Light")
+    light.unignore
+
+    # Trying to include as few classes as necessary right now
+    light.methods("createAnimableValue").ignore
+
+
   end
 end
 
