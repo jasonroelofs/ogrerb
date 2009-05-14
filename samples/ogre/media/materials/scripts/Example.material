@@ -335,23 +335,23 @@
 #		}
 #	}
 #}
-#material Examples/SpaceSkyPlane
-#{
-#	technique
-#	{
-#		pass
-#		{
-#			lighting off
-#			depth_write off
-#			fog_override true none
-#
-#			texture_unit
-#			{
-#				texture spacesky.jpg
-#			}
-#		}
-#	}
-#}
+material Examples/SpaceSkyPlane
+{
+	technique
+	{
+		pass
+		{
+			lighting off
+			depth_write off
+			fog_override true none
+
+			texture_unit
+			{
+				texture spacesky.jpg
+			}
+		}
+	}
+}
 #material Examples/TextureEffect1
 #{
 #	technique
