@@ -74,6 +74,8 @@ Extension.new "ogre" do |e|
     rgm = ogre.classes("ResourceGroupManager")
     rgm.unignore
 
+    rgm.variables.ignore
+
     rgm.methods("getSingleton").wrap_as("instance")
     rgm.methods("getSingletonPtr").ignore
 
@@ -124,6 +126,9 @@ Extension.new "ogre" do |e|
     # STL Interators, as usual
     scene_manager.methods.find(:name => /Iterator$/).ignore
 
+    # Returns an Enum? Need to figure out the to_ruby for that 
+    scene_manager.methods("getSpecialCaseRenderQueueMode").ignore 
+
     ##
     # ViewPoint (needed by SceneManager)
     ##
@@ -172,6 +177,11 @@ Extension.new "ogre" do |e|
     vec3 = ogre.classes("Vector3")
     vec3.unignore
 
+    # TODO When system supports multiple constructors, undo this
+    # Ignore all but the 3-argument constructor
+    vec3.constructors.ignore
+    vec3.constructors.find(:arguments => [nil,nil,nil]).unignore
+
     ogre.classes("Radian").unignore
     ogre.classes("Degree").unignore
 
@@ -192,6 +202,11 @@ Extension.new "ogre" do |e|
     ##
     plane = ogre.classes("Plane")
     plane.unignore
+
+    # TODO When system supports multiple constructors, undo this
+    # Just use the default constructor for now
+    plane.constructors.ignore
+    plane.constructors.find(:arguments => []).unignore
 
     ##
     # Light
