@@ -18,8 +18,8 @@ class SkyPlaneApplication < Application
     light = scene_manager.create_light("MainLight")
     light.set_position_0(20, 80, 50)
 
-#    dragon = scene_manager.create_entity("dragon", "dragon.mesh")
-#    scene_manager.get_root_scene_node.attach_object(dragon)
+    dragon = scene_manager.create_entity_0("dragon", "dragon.mesh")
+    scene_manager.get_root_scene_node.attach_object(dragon)
   end
 end
 

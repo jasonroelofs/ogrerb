@@ -79,6 +79,8 @@ Extension.new "ogre" do |e|
     rgm.methods("getSingleton").wrap_as("instance")
     rgm.methods("getSingletonPtr").ignore
 
+    rgm.structs("ResourceDeclaration").variables.ignore
+
     # STL container methods
     rgm.methods("getResourceDeclarationList").ignore
     rgm.methods("getResourceGroups").ignore
@@ -217,6 +219,52 @@ Extension.new "ogre" do |e|
     # Trying to include as few classes as necessary right now
     light.methods("createAnimableValue").ignore
 
+    ##
+    # Entity
+    ##
+    entity = ogre.classes("Entity")
+    entity.unignore
+
+    # STL contianers
+    entity.methods("getAllAnimationStates").ignore
+    entity.methods("getSkeletonInstanceSharingSet").ignore
+    entity.methods("getEdgeList").ignore
+    entity.methods.find(:name => /Iterator$/).ignore
+
+    # Might just need TagPoint wrapped
+    entity.methods("attachObjectToBone").ignore
+
+    # SubEntity has protected deconstructor, ignore it's use for now. We'll need to give the
+    # class a special Allocation_Strategy (thought rb++ did this already, hmm, bug?)
+    entity.methods("getSubEntity").ignore
+
+    ##
+    # Resource
+    ##
+    resource = ogre.classes("Resource")
+    resource.unignore
+
+    ##
+    # SceneNode
+    ##
+    scene_node = ogre.classes("SceneNode")
+    scene_node.unignore
+
+    # Has out params
+    scene_node.methods("_findVisibleObjects").ignore
+
+    # STL
+    scene_node.methods.find(:name => /Iterator$/).ignore
+
+    ##
+    # MovableObject
+    ##
+    mo = ogre.classes("MovableObject")
+    mo.unignore
+
+    # STL
+    mo.methods.find(:name => /Iterator$/).ignore
+    mo.methods("getEdgeList").ignore
 
   end
 end
