@@ -1,0 +1,12 @@
+---
+layout: default
+nav: news
+---
+
+{% for post in site.posts %}
+  <div class="entry">
+    <h2>{{ post.title }}</h2>
+
+    {{ post.content }}
+  </div>
+{% endfor %}

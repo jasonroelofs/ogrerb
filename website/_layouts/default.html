@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <title>{{ page.title }}</title>
+    <link rel="stylesheet" href="css/main.css" type="text/css" media="screen" />
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js" language="Javascript"></script>
+		<script src="js/jquery.corner.js" language="Javascript"></script>
+		<script src="js/jquery.dropshadow.js" language="Javascript"></script>
+		<script src="js/site.js" language="Javascript"></script>
+  </head>
+  <body>
+		<div id="wrapper">
+			<div id="header">
+				<div id="logo">
+					<img src="images/header.png"/>
+				</div>
+
+				<div id="navigation">
+					<ul>
+            <li {% if page.nav == "news" %}class="current"{% endif %}><a href="index.html">News</a></li>
+						<li {% if page.nav == "about" %}class="current"{% endif %}><a href="about.html">About</a></li>
+						<li {% if page.nav == "downloads" %}class="current"{% endif %}><a href="download.html">Downloads</a></li>
+						<li {% if page.nav == "docs" %}class="current"{% endif %}><a href="docs.html">Documentation</a></li>
+					</ul>
+				</div>
+			</div>
+
+			<div id="content">
+        {{ content }}
+      </div>
+
+      <div id="footer">
+        <a href="http://www.ruby-lang.org"><img src="images/ruby.png"/></a>
+        <a href="http://www.ogre3d.org"><img src="images/ogre3d.gif"/></a>
+      </div>
+    </div>
+
+    <a href="http://github.com/jameskilton/ogrerb"><img style="position: absolute; top: 0; right: 0; border: 0;" src="http://s3.amazonaws.com/github/ribbons/forkme_right_red_aa0000.png" alt="Fork me on GitHub" /></a>
+
+  </body>
+
+  <script type="text/javascript">
+  var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+  document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+  </script>
+  <script type="text/javascript">
+  try {
+  var pageTracker = _gat._getTracker("UA-137370-2");
+  pageTracker._trackPageview();
+  } catch(err) {}</script>
+</html>
+  

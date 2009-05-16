@@ -1,0 +1,46 @@
+---
+layout: default
+nav: about
+---
+
+h2. About Ogre.rb
+
+Welcome to Ogre.rb, the project to provide a complete and comprehensive wrapper of the "Ogre Rendering Engine":http://www.ogre3d.org for the "Ruby Programming Language":http://www.ruby-lang.org. 
+
+Ogre.rb is currently being built against Ogre.1.6.2 [Shoggoth].
+
+h2. Project Info
+
+This project is currently hosted on "Github":http://github.com/jameskilton/ogrerb with packages to be available on "Rubyforge":http://rubyforge.org/projects/ogrerb.
+
+For Issues, please use the project's "Github Issues tracker":http://github.com/jameskilton/ogrerb/issues
+
+For questions / comments, you can email me directly: jameskilton AT gmail DOT com 
+
+or use the project's "Rubyforge Forum":http://rubyforge.org/forum/?group_id=3602.
+
+h2. Licence
+
+Ogre.rb is released under the <a href="#" class="mit">MIT Licence</a>.
+
+<p id="licence-text">
+  Copyright (c) {{ site.time | date: "%Y" }} Jason Roelofs<br/>
+  <br/>
+  Permission is hereby granted, free of charge, to any person obtaining a copy
+  of this software and associated documentation files (the "Software"), to deal
+  in the Software without restriction, including without limitation the rights
+  to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+  copies of the Software, and to permit persons to whom the Software is
+  furnished to do so, subject to the following conditions:<br/>
+  <br/>
+  The above copyright notice and this permission notice shall be included in
+  all copies or substantial portions of the Software.<br/>
+  <br/>
+  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+  FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+  AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+  THE SOFTWARE.<br/>
+</p>

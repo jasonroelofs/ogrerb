@@ -1,0 +1,5 @@
+---
+title: "Ogre.rb is back!"
+---
+
+After a long delay, and a lot of time spent building a completely new set of tools to replace SWIG, Ogre.rb is back under heavy development.

@@ -1,0 +1,29 @@
+---
+layout: default
+nav: docs
+---
+
+h2. Documentation
+
+No real documentation right now, please see the project's README to get started.
+
+*Please Read* Ogre.rb will not attempt to document the Ogre public API. This library assumes decent working knowledge of Ogre itself, though if you need help Ogre has a very good set of documentation available at these places:
+
+* "Ogre Wiki":http://www.ogre3d.org/wiki/index.php/Main_Page
+* "Ogre Manual":http://www.ogre3d.org/docs/manual/
+* "Ogre API Reference":http://www.ogre3d.org/docs/api/html/
+
+Also, if you are new to Ruby, the following sites will help out with learning the language
+
+* "Official Ruby site":http://www.ruby-lang.org
+* "Ruby Documentation":http://www.ruby-doc.org/
+* "Pragmatic Programmer's Guide to Ruby":http://whytheluckystiff.net/ruby/pickaxe/
+* "_why's poignant guide to Ruby":http://poignantguide.net/ruby/ (not for the weak at heart)
+
+h2. Building
+
+Information on building Ogre.rb wrappers will go here. For now, see the Rakefile and the .rake files in the various wrappers.
+
+h2. Running
+
+Please see the programs in the samples/ directory. These are direct ports of Ogre's samples into Ogre.rb. All the rules about running an Ogre application (resources.cfg, ogre.cfg, plugins.cfg) are true in Ogre.rb as well.
