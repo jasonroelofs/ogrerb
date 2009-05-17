@@ -179,13 +179,17 @@ Extension.new "ogre" do |e|
     vec3 = ogre.classes("Vector3")
     vec3.unignore
 
-    # TODO When system supports multiple constructors, undo this
     # Ignore all but the 3-argument constructor
-    vec3.constructors.ignore
-    vec3.constructors.find(:arguments => [nil,nil,nil]).unignore
+    vec3.use_constructor vec3.constructors.find(:arguments => [nil,nil,nil])
 
-    ogre.classes("Radian").unignore
-    ogre.classes("Degree").unignore
+    radian = ogre.classes("Radian")
+    radian.unignore
+    radian.use_constructor radian.constructors.find(:arguments => ["Real"])
+
+    degree = ogre.classes("Degree")
+    degree.unignore
+    degree.use_constructor degree.constructors.find(:arguments => ["Real"])
+
 
     ##
     # TextureManager
@@ -207,8 +211,7 @@ Extension.new "ogre" do |e|
 
     # TODO When system supports multiple constructors, undo this
     # Just use the default constructor for now
-    plane.constructors.ignore
-    plane.constructors.find(:arguments => []).unignore
+    plane.use_constructor plane.constructors.find(:arguments => [])
 
     ##
     # Light
@@ -265,6 +268,38 @@ Extension.new "ogre" do |e|
     # STL
     mo.methods.find(:name => /Iterator$/).ignore
     mo.methods("getEdgeList").ignore
+
+    ##
+    # FrameListener
+    ##
+    ogre.classes("FrameListener").unignore
+
+    ##
+    # LogManager
+    ##
+    lm = ogre.classes("LogManager")
+    lm.unignore
+
+    lm.methods("getSingleton").wrap_as("instance")
+    lm.methods("getSingletonPtr").ignore
+    lm.methods("stream").ignore
+
+    ##
+    # Log (to work with LogManager of course)
+    ##
+    log = ogre.classes("Log")
+    log.unignore
+
+    log.methods("stream").ignore
+
+    ##
+    # WindowEventUtilities
+    ##
+    weu = ogre.classes("WindowEventUtilities")
+    weu.unignore
+
+    weu.constants("_msListeners").ignore
+    weu.constants("_msWindows").ignore
 
   end
 end

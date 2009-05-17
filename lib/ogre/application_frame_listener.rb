@@ -78,14 +78,15 @@ module Ogre
 			@rotate_speed = 36
 			@move_scale = 0.0
 			@rot_scale = 0.0
-			@translate_vector = Vector3.ZERO
+			@translate_vector = Vector3.new(0,0,0)
 			@rot_x = Degree.new(0)
 			@rot_y = Degree.new(0)
 			@debug_text = ""
 
 #			@debug_overlay = OverlayManager.instance.get_by_name("Core/DebugOverlay")	
 
-			LogManager.instance.log_message("*** Initializing OIS ***")
+#			LogManager.instance.log_message("*** Initializing OIS ***")
+			puts "*** Initializing OIS ***"
 
 			windowHnd = @window.get_custom_attribute("WINDOW")
 
@@ -95,27 +96,18 @@ module Ogre
 
 			# Most likely won't have a joystick here, so just throw away any exceptions
 			@joy_stick = nil
-			begin
-				@joy_stick = @input_manager.create_input_object( OIS::OISJoyStick, buffered_joy) unless Platform.mac?
-			rescue
-			end
+#			begin
+#				@joy_stick = @input_manager.create_input_object( OIS::OISJoyStick, buffered_joy) unless Platform.mac?
+#			rescue
+#			end
 
 #			show_debug_overlay(true)
 
-			# Currently doesn't work, it's the Ruby subclass back into C++ problem
-			#puts "Setting window listener"
 			@window_event_listener = ApplicationWindowListener.new(@input_manager, @window,
 																														 @keyboard, @mouse,
 																														 @joy_stick)
     
       
-      @window_events = WindowEvents.new @window
-      @window_events.on_resize lambda {@window_event_listener.window_resized}
-      
-      
-      @window_events.on_close lambda {@window_event_listener.window_closed}
-      
-
 			WindowEventUtilities.addWindowEventListener(@window, @window_event_listener)
 		end
 
@@ -239,7 +231,7 @@ module Ogre
 				@rot_x = Degree.new 0
 				@rot_y = Degree.new 0
 
-				@translate_vector = Vector3.ZERO
+				@translate_vector = Vector3.new 0,0,0
 			end
 
 			if !@keyboard.buffered

@@ -1,5 +1,6 @@
+require File.join(File.dirname(__FILE__),'..','ois')
 require File.join(File.dirname(__FILE__),'..','ogre')
-#require 'application_frame_listener'
+require 'application_frame_listener'
 
 module Ogre
 
@@ -73,7 +74,7 @@ module Ogre
 			create_resource_listener
 			load_resources
 			create_scene
-#			create_frame_listener
+			create_frame_listener
 			true
 		end
 

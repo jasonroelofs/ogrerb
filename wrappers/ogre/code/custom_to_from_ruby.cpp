@@ -34,6 +34,11 @@ Rice::Object to_ruby<Ogre::TextureManager>(const Ogre::TextureManager& r) {
   return Rice::Data_Object<Ogre::TextureManager>(Ogre::TextureManager::getSingletonPtr(), Rice::Data_Type<Ogre::TextureManager>::klass(), 0, 0); 
 }
 
+template<>
+Rice::Object to_ruby<Ogre::LogManager>(const Ogre::LogManager& r) {
+  return Rice::Data_Object<Ogre::LogManager>(Ogre::LogManager::getSingletonPtr(), Rice::Data_Type<Ogre::LogManager>::klass(), 0, 0); 
+}
+
 /**
  * End Singletons
  */
@@ -48,4 +53,3 @@ template<>
 Rice::Object to_ruby<Ogre::Degree >(Ogre::Degree const & a) {
 	return Rice::Data_Object<Ogre::Degree >((Ogre::Degree *)&a, Rice::Data_Type<Ogre::Degree >::klass(), 0, 0);
 }
-
