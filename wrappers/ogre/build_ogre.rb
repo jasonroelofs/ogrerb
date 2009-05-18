@@ -108,7 +108,19 @@ Extension.new "ogre" do |e|
     rt = ogre.classes("RenderTarget")
     rt.unignore
 
+    # void* is bad for Ruby wrapping, so we build our own
+    # here.
     rt.methods("getCustomAttribute").ignore
+    decl = <<-END
+int RenderTarget_getCustomAttributeInt(Ogre::RenderTarget* self, const std::string& name) {
+  int value(0);
+  self->getCustomAttribute(name, &value);
+  return value;
+}
+END
+    wrapping = "define_method(\"get_custom_attribute_int\", &RenderTarget_getCustomAttributeInt);"
+
+    rt.add_custom_code(decl, wrapping)
 
     ##
     # RenderWindow

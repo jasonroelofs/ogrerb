@@ -88,11 +88,13 @@ module Ogre
 #			LogManager.instance.log_message("*** Initializing OIS ***")
 			puts "*** Initializing OIS ***"
 
-			windowHnd = @window.get_custom_attribute("WINDOW")
+			windowHnd = @window.get_custom_attribute_int("WINDOW")
 
-			@input_manager = OIS::InputManager.create_input_system({"WINDOW" => "#{windowHnd}"})
-			@keyboard = @input_manager.create_input_object( OIS::OISKeyboard, buffered_keys)
-			@mouse = @input_manager.create_input_object( OIS::OISMouse, buffered_mouse)
+      puts "HND is #{windowHnd.inspect}"
+
+			@input_manager = OIS::InputManager.create_input_system_1({"WINDOW" => "#{windowHnd}"})
+			@keyboard = @input_manager.create_input_object( OIS::Type::OISKeyboard, buffered_keys, "")
+			@mouse = @input_manager.create_input_object( OIS::Type::OISMouse, buffered_mouse, "")
 
 			# Most likely won't have a joystick here, so just throw away any exceptions
 			@joy_stick = nil

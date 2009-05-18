@@ -1,0 +1,5 @@
+So as not to lose trains of thought:
+
+* getCustomAttributeInt, rb++ needs a way to allow custom wrapper code to be injected into the system
+* OIS::createInputObject, figure out a wrapper for returning the right object (maybe need to go the
+  python-ogre way of createKeyboard, createMouse, etc)

@@ -29,9 +29,58 @@ Extension.new "ois" do |e|
     # Hmm, InputManager has protected destructor, causing problems. Ignore them for now
     node.classes("Object").methods("getCreator").ignore
 
-    node.classes("InputManager").methods("listFreeDevices").ignore
+    ##
+    # Input Manager
+    ##
+    im = node.classes("InputManager")
+    im.methods("listFreeDevices").ignore
+
+    # createInputObject requires C++ style casting of the return value. We can't do that,
+    # so following with Python-Ogre, build some more explicit helpers to this method and
+    # export those.
+    im.methods("createInputObject").ignore
+
+    decl = <<-END
+OIS::Keyboard* createKeyboard(OIS::InputManager* self, bool buffering) {
+  OIS::Keyboard* keyboard = (OIS::Keyboard*) self->createInputObject(OIS::OISKeyboard, buffering);
+  return keyboard;
+}
+OIS::Mouse* createMouse(OIS::InputManager* self, bool buffering) {
+  OIS::Mouse* mouse = (OIS::Mouse*) self->createInputObject(OIS::OISMouse, buffering);
+  return mouse;
+}
+OIS::JoyStick* createJoyStick(OIS::InputManager* self, bool buffering) {
+  OIS::JoyStick* joystick = (OIS::JoyStick*) self->createInputObject(OIS::OISJoyStick, buffering);
+  return joystick;
+}
+END
+
+    wrapping = <<-END
+define_method("createKeyboard", &_OIS_InputManager_createKeyboard);
+define_method("createMouse", &_OIS_InputManager_createMouse);
+define_method("createJoyStick", &_OIS_InputManager_createJoyStick);
+END
+
+    im.add_custom_code(decl, wrapping)
 
     node.classes("Exception").ignore
+
+    ##
+    # Envelope
+    ##
+    envelope = node.classes("Envelope")
+    envelope.variables.ignore
+
+    # Effect classes deal with force feedback. Ignore these
+    # for now
+    node.classes.find(:name => /Effect$/).ignore
+
+    ##
+    # Ignore other custom factories for now
+    ##
+    node.structs("WiiMoteFactoryCreator").ignore
+    node.structs("LIRCFactoryCreator").ignore
+
   end
 end
 
