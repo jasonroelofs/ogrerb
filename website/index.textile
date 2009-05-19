@@ -8,7 +8,7 @@ h2. About Ogre.rb
 
 Welcome to Ogre.rb, the project to provide a complete and comprehensive wrapper of the "Ogre Rendering Engine":http://www.ogre3d.org for the "Ruby Programming Language":http://www.ruby-lang.org. 
 
-Ogre.rb is currently being built against Ogre.1.6.2 [Shoggoth].
+Ogre.rb is currently being built against Ogre 1.6.2 [Shoggoth].
 
 h2. Project Info
 
@@ -18,7 +18,7 @@ For Issues, please use the project's "Github Issues tracker":http://github.com/j
 
 For questions / comments, you can email me directly: jameskilton AT gmail DOT com 
 
-or use the project's "Rubyforge Forum":http://rubyforge.org/forum/?group_id=3602.
+Or use the project's "Rubyforge Forum":http://rubyforge.org/forum/?group_id=3602.
 
 h2. Licence
 
