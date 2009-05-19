@@ -6,6 +6,11 @@ Rice::Object to_ruby<short int>(short int const & a) {
 }
 
 template<>
+Rice::Object to_ruby<OIS::Axis >(OIS::Axis const & a) {
+	return Rice::Data_Object<OIS::Axis >((OIS::Axis *)&a, Rice::Data_Type<OIS::Axis >::klass(), 0, 0);
+}
+
+template<>
 OIS::ParamList& from_ruby<OIS::ParamList&>(Rice::Object x) {
   // This has GOT to be a memory leak
   OIS::ParamList* list = new OIS::ParamList;

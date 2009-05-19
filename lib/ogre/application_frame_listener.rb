@@ -1,7 +1,7 @@
 module Ogre
 	# Define a listener for certain window events, such as resizing, closing, 
 	# and changes of focus
-	class ApplicationWindowListener  #:nodoc:
+	class ApplicationWindowListener #< WindowEventListener
 		def initialize(input_manager, window, keyboard, mouse, joy_stick)
 			@input_manager = input_manager
 			@keyboard = keyboard
@@ -22,9 +22,9 @@ module Ogre
 		# Shut everything down nicely when we're done
 		def window_closed
 			if @input_manager
-				@input_manager.destroy_input_object(@mouse) unless @mouse.nil?
-				@input_manager.destroy_input_object(@keyboard) unless @keyboard.nil?
-				@input_manager.destroy_input_object(@joy_stick) unless @joy_stick.nil?
+				@input_manager.destroy_mouse(@mouse) unless @mouse.nil?
+				@input_manager.destroy_keyboard(@keyboard) unless @keyboard.nil?
+				@input_manager.destroy_joy_stick(@joy_stick) unless @joy_stick.nil?
 				OIS::InputManager.destroy_input_system(@input_manager)
 				@input_manager = nil
 			end
@@ -93,8 +93,8 @@ module Ogre
       puts "HND is #{windowHnd.inspect}"
 
 			@input_manager = OIS::InputManager.create_input_system_1({"WINDOW" => "#{windowHnd}"})
-			@keyboard = @input_manager.create_input_object( OIS::Type::OISKeyboard, buffered_keys, "")
-			@mouse = @input_manager.create_input_object( OIS::Type::OISMouse, buffered_mouse, "")
+			@keyboard = @input_manager.create_keyboard( buffered_keys )
+			@mouse = @input_manager.create_mouse( buffered_mouse )
 
 			# Most likely won't have a joystick here, so just throw away any exceptions
 			@joy_stick = nil
@@ -105,18 +105,18 @@ module Ogre
 
 #			show_debug_overlay(true)
 
-			@window_event_listener = ApplicationWindowListener.new(@input_manager, @window,
-																														 @keyboard, @mouse,
-																														 @joy_stick)
+#			@window_event_listener = ApplicationWindowListener.new(@input_manager, @window,
+#																														 @keyboard, @mouse,
+#																														 @joy_stick)
     
       
-			WindowEventUtilities.addWindowEventListener(@window, @window_event_listener)
+#			WindowEventUtilities.add_window_event_listener(@window, @window_event_listener)
 		end
 
 		# Ruby doesn't have destructors, just manually call shutdown to clean this up
 		def shutdown
-			WindowEventUtilities::removeWindowEventListener(@window, @window_event_listener)
-			@window_event_listener.windowClosed(@window)
+#			WindowEventUtilities::remove_window_event_listener(@window, @window_event_listener)
+#			@window_event_listener.window_closed(@window)
 			
 			# Clean up our input objects
 			@input_manager = nil

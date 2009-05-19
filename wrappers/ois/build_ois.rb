@@ -41,24 +41,24 @@ Extension.new "ois" do |e|
     im.methods("createInputObject").ignore
 
     decl = <<-END
-OIS::Keyboard* createKeyboard(OIS::InputManager* self, bool buffering) {
+OIS::Keyboard* _OIS_InputManager_createKeyboard(OIS::InputManager* self, bool buffering) {
   OIS::Keyboard* keyboard = (OIS::Keyboard*) self->createInputObject(OIS::OISKeyboard, buffering);
   return keyboard;
 }
-OIS::Mouse* createMouse(OIS::InputManager* self, bool buffering) {
+OIS::Mouse* _OIS_InputManager_createMouse(OIS::InputManager* self, bool buffering) {
   OIS::Mouse* mouse = (OIS::Mouse*) self->createInputObject(OIS::OISMouse, buffering);
   return mouse;
 }
-OIS::JoyStick* createJoyStick(OIS::InputManager* self, bool buffering) {
+OIS::JoyStick* _OIS_InputManager_createJoyStick(OIS::InputManager* self, bool buffering) {
   OIS::JoyStick* joystick = (OIS::JoyStick*) self->createInputObject(OIS::OISJoyStick, buffering);
   return joystick;
 }
 END
 
     wrapping = <<-END
-define_method("createKeyboard", &_OIS_InputManager_createKeyboard);
-define_method("createMouse", &_OIS_InputManager_createMouse);
-define_method("createJoyStick", &_OIS_InputManager_createJoyStick);
+<class>.define_method("create_keyboard", &_OIS_InputManager_createKeyboard);
+<class>.define_method("create_mouse", &_OIS_InputManager_createMouse);
+<class>.define_method("create_joy_stick", &_OIS_InputManager_createJoyStick);
 END
 
     im.add_custom_code(decl, wrapping)
@@ -81,6 +81,17 @@ END
     node.structs("WiiMoteFactoryCreator").ignore
     node.structs("LIRCFactoryCreator").ignore
 
+    # TODO Figure out if rb++ can handle this on it's own.
+    # When dealing with STL containers, typedef-ing can end 
+    # up going both ways. We need to flag classes to not
+    # do the reverse typedef lookup
+    node.classes("Axis").disable_typedef_lookup
+    node.classes("Vector3").disable_typedef_lookup
+
+    ## 
+    # JoyStickState
+    ##
+    node.classes("JoyStickState").variables.ignore 
   end
 end
 
