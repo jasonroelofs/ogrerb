@@ -1,10 +1,11 @@
 ---
 layout: default
 nav: downloads
+title: Ogre.rb - Downloads
 ---
 
 h2. Downloads
 
-Ogre.rb does not currently have any availble downloads, please grab code directly from the "repository on github":http://github.com/jameskilton/ogrerb.
+Ogre.rb does not currently have any available downloads, please grab code directly from the "repository on github":http://github.com/jameskilton/ogrerb.
 
 Old versions of Ogre.rb (those using the SWIG wrappers) are available on the "Rubyforge project page":http://rubyforge.org/projects/ogrerb. That said, these releases are no longer supported.

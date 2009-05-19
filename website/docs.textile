@@ -1,6 +1,7 @@
 ---
 layout: default
 nav: docs
+title: Ogre.rb - Documentation
 ---
 
 h2. Documentation

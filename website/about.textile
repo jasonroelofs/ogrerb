@@ -1,6 +1,7 @@
 ---
 layout: default
 nav: about
+title: Ogre.rb - About
 ---
 
 h2. About Ogre.rb
