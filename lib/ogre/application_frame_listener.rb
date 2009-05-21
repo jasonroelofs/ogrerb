@@ -92,7 +92,11 @@ module Ogre
 
       puts "HND is #{windowHnd.inspect}"
 
-			@input_manager = OIS::InputManager.create_input_system_1({"WINDOW" => "#{windowHnd}"})
+      # We disable grab to allow debugging, specifically when running this
+      # through gdb
+			@input_manager = OIS::InputManager.create_input_system_1(
+        {"WINDOW" => "#{windowHnd}", "x11_mouse_grab" => "false", "x11_keyboard_grab" => "false"}
+      )
 			@keyboard = @input_manager.create_keyboard( buffered_keys )
 			@mouse = @input_manager.create_mouse( buffered_mouse )
 

@@ -118,7 +118,7 @@ int RenderTarget_getCustomAttributeInt(Ogre::RenderTarget* self, const std::stri
   return value;
 }
 END
-    wrapping = "define_method(\"get_custom_attribute_int\", &RenderTarget_getCustomAttributeInt);"
+    wrapping = "<class>.define_method(\"get_custom_attribute_int\", &RenderTarget_getCustomAttributeInt);"
 
     rt.add_custom_code(decl, wrapping)
 

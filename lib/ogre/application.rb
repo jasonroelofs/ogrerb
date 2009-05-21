@@ -93,6 +93,8 @@ module Ogre
 		def create_camera
 			@camera = @scene_manager.create_camera("PlayerCam")
 
+      puts "Camera is #{@camera.inspect}"
+
 			@camera.set_position_0(0, 0, 500)
 			# Look along the -Z axis
 			@camera.look_at_1(0, 0, -300)
