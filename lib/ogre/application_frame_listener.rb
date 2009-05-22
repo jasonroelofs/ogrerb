@@ -72,6 +72,7 @@ module Ogre
 
 		def initialize(render_window, camera, buffered_keys = false, 
 									 buffered_mouse = false, buffered_joy = false)
+      super()
 			@camera = camera
 			@window = render_window
 			@move_speed = 100
