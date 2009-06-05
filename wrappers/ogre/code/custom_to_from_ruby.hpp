@@ -41,4 +41,7 @@ Rice::Object to_ruby<Ogre::ViewPoint >(Ogre::ViewPoint const & a);
 template<>
 Rice::Object to_ruby<Ogre::Degree >(Ogre::Degree const & a);
 
+template<>
+Rice::Object to_ruby<Ogre::FrameEvent >(const Ogre::FrameEvent& a);
+
 #endif

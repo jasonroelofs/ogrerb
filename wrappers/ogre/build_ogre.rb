@@ -128,6 +128,19 @@ END
     rw = ogre.classes("RenderWindow")
     rw.unignore
 
+    rw.methods("isClosed").wrap_as("closed?")
+    rw.methods("isActive").wrap_as("active?")
+    rw.methods("isPrimary").wrap_as("primary?")
+
+    rw.methods("isFullScreen").wrap_as("full_screen?")
+    rw.methods("setFullscreen").wrap_as("full_screen=")
+
+    rw.methods("isDeactivatedOnFocusChange").wrap_as("deactivated_on_focus_change?")
+    rw.methods("setDeactivateOnFocusChange").wrap_as("deactivate_on_focus_change=")
+
+    rw.methods("isVisible").wrap_as("visible?")
+    rw.methods("setVisible").wrap_as("visible=")
+
     ##
     # SceneManager
     ##
@@ -284,7 +297,14 @@ END
     ##
     # FrameListener
     ##
-    ogre.classes("FrameListener").unignore
+    fl = ogre.classes("FrameListener")
+    fl.unignore
+    fl.director
+
+    ##
+    # FrameEvent
+    ##
+    ogre.structs("FrameEvent").unignore
 
     ##
     # LogManager
