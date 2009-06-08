@@ -96,7 +96,7 @@ module Ogre
       # We disable grab to allow debugging, specifically when running this
       # through gdb
 			@input_manager = OIS::InputManager.create_input_system_1(
-        {"WINDOW" => "#{windowHnd}", "x11_mouse_grab" => "false", "x11_keyboard_grab" => "false"}
+        {"WINDOW" => "#{windowHnd}"} #, "x11_mouse_grab" => "false", "x11_keyboard_grab" => "false"}
       )
 			@keyboard = @input_manager.create_keyboard( buffered_keys )
 			@mouse = @input_manager.create_mouse( buffered_mouse )
@@ -132,47 +132,47 @@ module Ogre
 			# Start with basic movement, add overlay stuff later
 
 			# Left
-			if @keyboard.key_down?(OIS::KC_A)
+			if @keyboard.key_down?(OIS::KeyCode::KC_A)
 				@translate_vector.x = -@move_scale
 			end
 
 			# Right
-			if @keyboard.key_down?(OIS::KC_D)
+			if @keyboard.key_down?(OIS::KeyCode::KC_D)
 				@translate_vector.x = @move_scale
 			end
 
 			# Forward
-			if @keyboard.key_down?(OIS::KC_UP) || @keyboard.key_down?(OIS::KC_W)
+			if @keyboard.key_down?(OIS::KeyCode::KC_UP) || @keyboard.key_down?(OIS::KeyCode::KC_W)
 				@translate_vector.z = -@move_scale
 			end
 
 			# Back
-			if @keyboard.key_down?(OIS::KC_DOWN) || @keyboard.key_down?(OIS::KC_S)
+			if @keyboard.key_down?(OIS::KeyCode::KC_DOWN) || @keyboard.key_down?(OIS::KeyCode::KC_S)
 				@translate_vector.z = @move_scale
 			end
 
 			# Up
-			if @keyboard.key_down?(OIS::KC_PGUP)
+			if @keyboard.key_down?(OIS::KeyCode::KC_PGUP)
 				@translate_vector.y = @move_scale
 			end
 
 			# Down
-			if @keyboard.key_down?(OIS::KC_PGDOWN)
+			if @keyboard.key_down?(OIS::KeyCode::KC_PGDOWN)
 				@translate_vector.y = -@move_scale
 			end
 
 			# Turn Right
-			if @keyboard.key_down?(OIS::KC_RIGHT)
+			if @keyboard.key_down?(OIS::KeyCode::KC_RIGHT)
 				@camera.yaw( Degree.new(-@rot_scale) )
 			end
 
 			# Turn Left
-			if @keyboard.key_down?(OIS::KC_LEFT)
+			if @keyboard.key_down?(OIS::KeyCode::KC_LEFT)
 				@camera.yaw( Degree.new(@rot_scale) )
 			end
 
 			# Quit
-			if @keyboard.key_down?(OIS::KC_ESCAPE) || @keyboard.key_down?(OIS::KC_Q)
+			if @keyboard.key_down?(OIS::KeyCode::KC_ESCAPE) || @keyboard.key_down?(OIS::KeyCode::KC_Q)
 				return false;
 			end
 
@@ -181,14 +181,14 @@ module Ogre
 		end
 
 		def process_unbuffered_mouse_input(event)
-			state = @mouse.mouse_state
+			state = @mouse.get_mouse_state
     
-			if state.button_down?(OIS::MB_Right)
+			if state.button_down?(OIS::MouseButtonID::MB_Right)
 				@translate_vector.x += state.X.rel * 0.13
 				@translate_vector.y -= state.Y.rel * 0.13
 			else
-				@rot_x = Degree.new(-state.X.rel * 0.13)
-				@rot_y = Degree.new(-state.Y.rel * 0.13)
+				@rot_x = Degree.new(-state.X.rel * 0.013)
+				@rot_y = Degree.new(-state.Y.rel * 0.013)
 			end
 
 			true
@@ -196,8 +196,8 @@ module Ogre
 
 		# Process the movement we've calculated this frame
 		def move_camera
-			@camera.yaw(@rot_x)
-			@camera.pitch(@rot_y)
+			@camera.yaw(Radian.new(@rot_x.value_degrees))
+			@camera.pitch(Radian.new(@rot_y.value_degrees))
 			@camera.move_relative(@translate_vector)
 		end
 
@@ -235,8 +235,8 @@ module Ogre
 					@rot_scale = @rotate_speed * event.time_since_last_frame
 				end
 
-				@rot_x = Degree.new 0
-				@rot_y = Degree.new 0
+				@rot_x = Degree.new(0.0)
+				@rot_y = Degree.new(0.0)
 
 				@translate_vector = Vector3.new 0,0,0
 			end
@@ -252,7 +252,7 @@ module Ogre
 			if !@mouse.buffered || !@keyboard.buffered || !buffered_joy
 				move_camera
 			end
-			
+
 			# Keep rendering!
 			true
 		end

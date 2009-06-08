@@ -92,6 +92,19 @@ END
     # JoyStickState
     ##
     node.classes("JoyStickState").variables.ignore 
+
+    ##
+    # Keyboard
+    ##
+    keyboard = node.classes("Keyboard")
+    keyboard.methods("isKeyDown").wrap_as("key_down?")
+    keyboard.methods("isModifierDown").wrap_as("modifier_down?")
+
+    ##
+    # MouseState
+    ##
+    ms = node.classes("MouseState")
+    ms.methods("buttonDown").wrap_as("button_down?")
   end
 end
 

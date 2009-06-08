@@ -1,5 +1,13 @@
-require File.join(File.dirname(__FILE__),'..','ois')
-require File.join(File.dirname(__FILE__),'..','ogre')
+require 'dl'
+
+GC.disable
+
+ogre_so = DL.dlopen File.expand_path(File.dirname(__FILE__) + '/ogre.so')
+ois_so = DL.dlopen File.expand_path(File.join(File.dirname(__FILE__), '..', 'ois', 'ois.so'))
+
+ogre_so['Init_ogre', 'I'].call
+ois_so['Init_ois', 'I'].call
+
 require 'application_frame_listener'
 
 module Ogre
@@ -92,8 +100,6 @@ module Ogre
 
 		def create_camera
 			@camera = @scene_manager.create_camera("PlayerCam")
-
-      puts "Camera is #{@camera.inspect}"
 
 			@camera.set_position_0(0, 0, 500)
 			# Look along the -Z axis

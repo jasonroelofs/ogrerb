@@ -59,7 +59,7 @@ Extension.new "ogre" do |e|
     root.methods("getSingleton").wrap_as("instance")
     root.methods("getSingletonPtr").ignore
 
-    # Plugin architecture is for dll plugins. Maybe Ruby-written plugins will come, but much laster
+    # Plugin architecture is for dll plugins. Maybe Ruby-written plugins will come, but much later
     root.methods("installPlugin").ignore
     root.methods("uninstallPlugin").ignore
 

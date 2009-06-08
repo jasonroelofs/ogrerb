@@ -50,11 +50,6 @@ Rice::Object to_ruby<Ogre::ViewPoint >(Ogre::ViewPoint const & a) {
 }
 
 template<>
-Rice::Object to_ruby<Ogre::Degree >(Ogre::Degree const & a) {
-	return Rice::Data_Object<Ogre::Degree >((Ogre::Degree *)&a, Rice::Data_Type<Ogre::Degree >::klass(), 0, 0);
-}
-
-template<>
 Rice::Object to_ruby<Ogre::FrameEvent >(const Ogre::FrameEvent& a) {
 	return Rice::Data_Object<Ogre::FrameEvent >((Ogre::FrameEvent *)&a, Rice::Data_Type<Ogre::FrameEvent >::klass(), 0, 0);
 }
