@@ -184,11 +184,11 @@ module Ogre
 			state = @mouse.get_mouse_state
     
 			if state.button_down?(OIS::MouseButtonID::MB_Right)
-				@translate_vector.x += state.X.rel * 0.13
-				@translate_vector.y -= state.Y.rel * 0.13
+				@translate_vector.x += state.x.rel * 0.13
+				@translate_vector.y -= state.y.rel * 0.13
 			else
-				@rot_x = Degree.new(-state.X.rel * 0.013)
-				@rot_y = Degree.new(-state.Y.rel * 0.013)
+				@rot_x = Degree.new(-state.x.rel * 0.013)
+				@rot_y = Degree.new(-state.y.rel * 0.013)
 			end
 
 			true
