@@ -1,12 +1,7 @@
-require 'dl'
+$:.unshift File.expand_path(File.join(File.dirname(__FILE__), ".."))
 
-GC.disable
-
-ogre_so = DL.dlopen File.expand_path(File.dirname(__FILE__) + '/ogre.so')
-ois_so = DL.dlopen File.expand_path(File.join(File.dirname(__FILE__), '..', 'ois', 'ois.so'))
-
-ogre_so['Init_ogre', 'I'].call
-ois_so['Init_ois', 'I'].call
+require 'ogre'
+require 'ois'
 
 require 'application_frame_listener'
 
