@@ -5,7 +5,7 @@ include RbPlusPlus
 
 OGRE_RB_ROOT = File.expand_path(File.join(File.dirname(__FILE__), "..", ".."))
 
-OIS_DIR = File.join(OGRE_RB_ROOT, "lib", "ois")
+OIS_DIR = File.join(OGRE_RB_ROOT, "lib", "usr")
 
 HERE_DIR = File.join(OGRE_RB_ROOT, "wrappers", "ois")
 
