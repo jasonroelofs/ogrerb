@@ -2,3 +2,4 @@ generated
 *.swp
 website/_site
 publish
+lib/usr
