@@ -34,7 +34,7 @@ Index: OgreMain/include/OgreString.h
  // For gcc 4.3 see http://gcc.gnu.org/gcc-4.3/changes.html
 -#   if OGRE_COMP_VER >= 430
 +#   if OGRE_COMP_VER >= 430 && !defined (__OGRERB_BUILD)
- #       include <tr1/unordered_map>
+ #       include <tr1/unordered_map> 
  #   else
  #       include <ext/hash_map>
 @@ -158,7 +158,7 @@
