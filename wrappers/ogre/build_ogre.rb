@@ -7,7 +7,7 @@ include RbPlusPlus
 
 OGRE_RB_ROOT = File.expand_path(File.join(File.dirname(__FILE__), "..", ".."))
 
-OGRE_DIR = File.join(OGRE_RB_ROOT, "lib", "ogre")
+OGRE_DIR = File.join(OGRE_RB_ROOT, "lib", "usr")
 
 HERE_DIR = File.join(OGRE_RB_ROOT, "wrappers", "ogre")
 
@@ -16,8 +16,8 @@ Extension.new "ogre" do |e|
   e.working_dir = File.join(OGRE_RB_ROOT, "generated", "ogre")
 
   e.sources File.join(OGRE_DIR, "include", "OGRE", "Ogre.h"),
-    :include_paths => File.join(OGRE_RB_ROOT, "lib", "ogre", "include", "OGRE"),
-    :library_paths => File.join(OGRE_RB_ROOT, "lib", "ogre", "lib"),
+    :include_paths => File.join(OGRE_RB_ROOT, "lib", "usr", "include", "OGRE"),
+    :library_paths => File.join(OGRE_RB_ROOT, "lib", "usr", "lib"),
     :include_source_dir => File.join(HERE_DIR, "code"),
     :libraries => "OgreMain",
 
