@@ -4,6 +4,14 @@ nav: about
 title: Ogre.rb - About
 ---
 
+h2. News
+
+<ul>
+{% for post in site.posts %}
+  <li><a href="{{ post.url }}">{{ post.date | date_to_string }} - {{ post.title }}</a></li>
+{% endfor %}
+</ul>
+
 h2. About Ogre.rb
 
 Welcome to Ogre.rb, the project to provide a complete and comprehensive wrapper of the "Ogre Rendering Engine":http://www.ogre3d.org for the "Ruby Programming Language":http://www.ruby-lang.org. 

@@ -1,0 +1,17 @@
+---
+title: "Update on current Ogre.rb work"
+---
+
+Work on Ogre.rb has progressed very nicely, and I even have the sky_plane demo working again, albeit without the debug Overlay, but that will come. I unfortunately have to put Ogre.rb work on halt for now and figure out how I'm going to take care of two main issues I've run into: memory management and method overloads.
+
+* Memory Management
+
+Keeping proper object ownership across C++ and Ruby is not an easy problem, and compounding that is making sure that objects are constructed and destructed by the appropriate parties. Get this handling wrong, and the applications will Segfault all over the place. This can actually be seen right now, Ogre.rb applications will Segfault on close 100% of the time (Rice is cleaning up SceneManager instances, so when Root tries to do the same, boom). This will probably just be work in rb++ to open up comprehensive tools for telling Rice who owns what.
+
+* Method Overloading / Default Arguments
+
+This is a biggie, and is the current blocker for me. Rice doesn't currently support default arguments, and Ogre makes heavy use of this feature (just see SceneManager::setSkyPlan) and it's becoming cumbersome having to specify every single argument to a given method. I don't think this will be a difficult feature to implement, but it's implementation also helps me with the other problem of method overloading.
+
+Method overloading isn't supported in Ruby at all, so I will have to fake it by counting arguments and figuring out calls according to argument types that come in (this is exactly what SWIG does). This will require a decent rebuild of Rice's method wrapping system and is going to take a while to get done and get right.
+
+Hopefully once this hurdle is taken care of Ogre.rb work will progress much smoother and faster.
