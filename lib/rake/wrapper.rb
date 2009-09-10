@@ -27,6 +27,12 @@ class Wrapper
       sh "patch -s -N -i #{patch_file} -p0"
     end
   end
+
+  def copy_over(file)
+    full = ogrerb_path("wrappers", @name, file)
+    cp full, "."
+  end
+
 end
 
 def ogrerb_path(*args)
@@ -43,7 +49,7 @@ def wrapper(lib)
     desc "Clean up #{library}"
     task :clean do
       rm_rf ogrerb_path("tmp", library)
-      rm_rf ogrerb_path("tmp", "downloads", wrapper.download)
+      rm ogrerb_path("tmp", "downloads", "#{wrapper.download}*")
     end
 
     desc "Download, build, and install the #{library} library. Installs into #{OGRE_RB_ROOT}/lib/usr"
