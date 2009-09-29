@@ -1,6 +1,7 @@
 #!/usr/bin/env ruby
 
-require File.dirname(__FILE__) + '/../../lib/noise'
+$:.unshift File.dirname(__FILE__) + '/../../lib'
+require 'noise'
 
 my_module = Noise::Module::Perlin.new
 puts "Random coherent value: #{my_module.get_value(1.25, 0.75, 0.5)}"

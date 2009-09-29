@@ -1,5 +1,8 @@
 #!/usr/bin/env ruby
-require File.dirname(__FILE__) + '/../../lib/noise'
+
+$:.unshift File.dirname(__FILE__) + '/../../lib'
+require 'noise'
+
 include Noise
 
 # See http://libnoise.sourceforge.net/tutorials/tutorial5.html

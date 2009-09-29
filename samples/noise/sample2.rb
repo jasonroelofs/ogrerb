@@ -2,7 +2,8 @@
 
 # See http://libnoise.sourceforge.net/tutorials/tutorial3.html
 
-require File.dirname(__FILE__) + '/../../lib/noise'
+$:.unshift File.dirname(__FILE__) + '/../../lib'
+require 'noise'
 
 my_module = Noise::Module::Perlin.new
 
