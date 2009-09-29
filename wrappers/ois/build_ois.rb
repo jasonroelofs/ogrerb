@@ -29,11 +29,18 @@ Extension.new "ois" do |e|
     # Hmm, InputManager has protected destructor, causing problems. Ignore them for now
     node.classes("Object").methods("getCreator").ignore
 
+    # Needs a to_ruby(const&) for a std::map
+    node.classes("ForceFeedback").ignore
+
     ##
     # Input Manager
     ##
     im = node.classes("InputManager")
     im.methods("listFreeDevices").ignore
+
+    # EventArg#device returns an OIS::Object, which is abstract. Need to build
+    # a custom handler around this if it's needed.
+    node.classes("EventArg").variables("device").ignore
 
     # createInputObject requires C++ style casting of the return value. We can't do that,
     # so following with Python-Ogre, build some more explicit helpers to this method and
