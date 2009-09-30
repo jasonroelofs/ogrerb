@@ -49,7 +49,7 @@ Extension.new "noise" do |e|
 
     m.module "Module" do |mod|
       node = mod.namespace "module"
-      node.classes("Module").director
+#      node.classes("Module").director
     end
   end
 end
