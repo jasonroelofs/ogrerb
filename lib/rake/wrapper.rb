@@ -72,9 +72,9 @@ def wrapper(lib)
       end
     end
 
-    desc "Generate, compile, and install the #{library} wrapper"
+    desc "Generate, compile, and install the #{library} wrapper. Pass CLEAN=1 to force a complete rebuild"
     task :build do
-      ruby ogrerb_path("wrappers", library, "build_#{library}.rb") 
+      ruby "#{ogrerb_path("wrappers", library, "build_#{library}.rb")} #{ENV["CLEAN"] ? "clean" : ""}"
     end
   end
 end
