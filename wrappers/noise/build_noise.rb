@@ -36,20 +36,20 @@ Extension.new "noise" do |e|
       node.classes("NoiseMap").constructors.find(:arguments => [nil, nil]).ignore
       node.classes("NoiseMap").constructors.find(:arguments => [nil]).ignore
 
+      node.classes("Image").use_constructor(
+        node.classes("Image").constructors.find(:arguments => [])
+      )
+
       # NoiseMap's GetConstSlapPtr is not liking the rb++ of method exposing,
       # ignore for now
       node.classes("NoiseMap").methods("GetConstSlabPtr").ignore
 
       # Same here
       node.classes("Image").methods("GetConstSlabPtr").ignore
-
-      node.classes("Image").constructors.find(:arguments => [nil, nil]).ignore
-      node.classes("Image").constructors.find(:arguments => [nil]).ignore
     end
 
     m.module "Module" do |mod|
       node = mod.namespace "module"
-#      node.classes("Module").director
     end
   end
 end
