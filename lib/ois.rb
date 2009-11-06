@@ -1,4 +1,4 @@
 #!/usr/bin/env ruby
 
-require 'common'
-ogrerb_lib :ois
+$:.unshift File.expand_path(File.join(File.dirname(__FILE__), "ois"))
+require 'ois.so'

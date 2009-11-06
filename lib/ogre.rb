@@ -1,4 +1,4 @@
 #!/usr/bin/env ruby
 
-require 'common'
-ogrerb_lib :ogre
+$:.unshift File.expand_path(File.join(File.dirname(__FILE__), "ogre"))
+require 'ogre.so'

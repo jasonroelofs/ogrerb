@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
 
-$:.unshift File.dirname(__FILE__) + '/../../lib'
+$:.unshift File.expand_path(File.dirname(__FILE__) + '/../../lib')
 require 'noise'
 
 include Noise

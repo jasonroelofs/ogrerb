@@ -1,4 +1,4 @@
 #!/usr/bin/env ruby
 
-require 'common'
-ogrerb_lib :noise
+$:.unshift File.expand_path(File.join(File.dirname(__FILE__), "noise"))
+require 'noise.so'
