@@ -38,15 +38,20 @@ Extension.new "ogre" do |e|
     # Singleton<> 
     # Ignore all of these
     ##
-    ogre.classes.find(:name => /Singleton/).ignore
+    singleton = ogre.classes.find(:name => /Singleton/)
+    singleton.ignore
+
+    # Processing on all Singleton classes
+    #
+    # TODO Obviously find(:all) isn't doing what I want. Hacking around
+    # it here for now
+    singleton[0].methods.find(:all, :name => "getSingleton").ignore
+    singleton[0].methods.find(:all, :name => "getSingletonPtr").wrap_as("instance")
 
     ##
     #  Root
     ##
     root = ogre.classes("Root")
-
-    root.methods("getSingleton").wrap_as("instance")
-    root.methods("getSingletonPtr").ignore
 
     # Plugin architecture is for dll plugins.Ruby-written plugins will come later
     root.methods("installPlugin").ignore
@@ -61,12 +66,7 @@ Extension.new "ogre" do |e|
     # ResourceGroupManager
     ##
     rgm = ogre.classes("ResourceGroupManager")
-
     rgm.variables.ignore
-
-    rgm.methods("getSingleton").wrap_as("instance")
-    rgm.methods("getSingletonPtr").ignore
-
     rgm.structs("ResourceDeclaration").variables.ignore
 
     # STL container methods
@@ -201,9 +201,6 @@ END
     ##
     tex_man = ogre.classes("TextureManager")
 
-    tex_man.methods("getSingleton").wrap_as("instance")
-    tex_man.methods("getSingletonPtr").ignore
-
     # std::pair
     tex_man.methods("createOrRetrieve").ignore
 
@@ -304,9 +301,6 @@ END
     # LogManager
     ##
     lm = ogre.classes("LogManager")
-
-    lm.methods("getSingleton").wrap_as("instance")
-    lm.methods("getSingletonPtr").ignore
     lm.methods("stream").ignore
 
     ##
@@ -450,7 +444,7 @@ END
     ##
     # MaterialScriptProgramDefinition
     ##
-    mspd = ogre.classes("MaterialScriptProgramDefinition")
+    mspd = ogre.structs("MaterialScriptProgramDefinition")
     mspd.variables("customParameters").ignore
 
     ##
@@ -459,6 +453,14 @@ END
     particle_system = ogre.classes("ParticleSystem")
     # Hide all the Cmd classes inside
     particle_system.classes.ignore
+
+    ##
+    # Math
+    ##
+    math = ogre.classes("Math")
+    math.methods("intersects").ignore
+    # Function type is weird. Clamp<float>_func_type ?
+    math.methods("clamp").ignore
 
 
     # The following are typedef-finding stl structs, disable the typedef lookup
