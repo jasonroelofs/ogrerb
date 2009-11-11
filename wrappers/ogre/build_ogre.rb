@@ -45,8 +45,26 @@ Extension.new "ogre" do |e|
     #
     # TODO Obviously find(:all) isn't doing what I want. Hacking around
     # it here for now
-    singleton[0].methods.find(:all, :name => "getSingleton").ignore
-    singleton[0].methods.find(:all, :name => "getSingletonPtr").wrap_as("instance")
+    klass = singleton[0]
+    klass.methods.find(:all, :name => "getSingleton").ignore
+    klass.methods.find(:all, :name => "getSingletonPtr").wrap_as("instance")
+    klass.methods.find(:all, :name => /Iterator$/).ignore
+    klass.methods.find(:all, :name => "getLights").ignore
+
+    ## Incomplete types
+    ogre.structs("BillboardParticleRenderer").ignore
+    ogre.classes("RenderSystemCapabilitiesSerializer").ignore
+    ogre.structs("ArchiveFactory").ignore
+    ogre.structs("MemoryManager").ignore
+    ogre.structs("ScriptCompiler").ignore
+    ogre.structs("Factory").ignore
+    ogre.structs("ParticleSystemRenderer").ignore
+    ogre.structs("DynLib").ignore
+    ogre.structs("ConfigDialog").ignore
+    ogre.structs("TagPoint").ignore
+    ogre.structs("ParticleAffectorFactory").ignore
+    ogre.structs("WireBoundingBox").ignore
+    ogre.structs("Codec").ignore
 
     ##
     #  Root
@@ -57,10 +75,11 @@ Extension.new "ogre" do |e|
     root.methods("installPlugin").ignore
     root.methods("uninstallPlugin").ignore
 
-    # Ignore methods that use STL containers for now
-    root.methods("getSceneManagerIterator").ignore
-    root.methods("getSceneManagerMetaDataIterator").ignore
-    root.methods("getMovableObjectFactoryIterator").ignore
+    ##
+    # NedAlloc
+    ##
+    ogre.classes("NedAllocImpl").ignore
+    ogre.classes("NedAllocPolicy").ignore
 
     ##
     # ResourceGroupManager
@@ -78,7 +97,6 @@ Extension.new "ogre" do |e|
     rgm.methods("listResourceFileInfo").ignore
     rgm.methods("openResource").ignore
     rgm.methods("openResources").ignore
-    rgm.methods("getResourceManagerIterator").ignore
 
     # Weird use case here. These methods both have overloads, one of which uses a protected type
     # as an argument. Ignore for now, figure out how to have rb++ handle this case
@@ -136,7 +154,6 @@ END
     scene_manager.methods("setOption").ignore
 
     # STL Interators, as usual
-    scene_manager.methods(/Iterator$/).ignore
     scene_manager.methods("getLightClippingPlanes").ignore
 
     # Returns an Enum? Need to figure out the to_ruby for that 
@@ -183,6 +200,12 @@ END
     # Vector4
     ##
     vec4 = ogre.classes("Vector4")
+
+    ##
+    # Ray
+    ##
+    ray = ogre.classes("Ray")
+    ray.methods("intersects").ignore
 
     ##
     # Radian
@@ -248,7 +271,6 @@ END
     entity.methods("getAllAnimationStates").ignore
     entity.methods("getSkeletonInstanceSharingSet").ignore
     entity.methods("getEdgeList").ignore
-    entity.methods.find(:name => /Iterator$/).ignore
 
     # Might just need TagPoint wrapped
     entity.methods("attachObjectToBone").ignore
@@ -261,8 +283,6 @@ END
     # Node
     ##
     node = ogre.classes("Node")
-    node.methods("getLights").ignore
-    node.methods("getChildIterator").ignore
 
     ##
     # SceneNode
@@ -272,23 +292,20 @@ END
     # Has out params
     scene_node.methods("_findVisibleObjects").ignore
 
-    # STL
-    scene_node.methods.find(:name => /Iterator$/).ignore
-
     ##
     # ManualObject
     ##
     mo = ogre.classes("ManualObject")
     mo.methods("getEdgeList").ignore
-    mo.methods("getShadowVolumeRenderableIterator").ignore
 
     ##
     # MovableObject
     ##
     mo = ogre.classes("MovableObject")
+    mo.methods("queryLights").ignore
+    mo.methods("_getLightList").ignore
 
     # STL
-    mo.methods.find(:name => /Iterator$/).ignore
     mo.methods("getEdgeList").ignore
 
     ##
@@ -333,6 +350,20 @@ END
     ogre.classes.find(:name => /Iterator/).ignore
 
     ##
+    # AnimationStateSet
+    ##
+    anim_set = ogre.classes("AnimationStateSet")
+    anim_set.methods("getAnimationStateIterator").ignore
+    anim_set.methods("getEnabledAnimationStateIterator").ignore
+
+    ##
+    # ArchiveManager
+    ##
+    archive_manager = ogre.classes("ArchiveManager")
+    archive_manager.methods("addArchiveFactory").ignore
+    archive_manager.methods("getArchiveIterator").ignore
+
+    ##
     # Controllers
     ##
     ogre.classes.find(:name => /ControllerValue/).ignore
@@ -347,6 +378,38 @@ END
     # AllocatedObject
     ##
     ogre.classes.find(:name => /AllocatedObject/).ignore
+
+    ##
+    # MeshManager
+    ##
+    mesh_man = ogre.classes("MeshManager")
+    mesh_man.methods("createOrRetrieve").ignore
+    
+    # The following have too many parameters.
+    # Need to up the limit in Rice
+    mesh_man.methods("createPlane").ignore
+    mesh_man.methods("createCurvedPlane").ignore
+    mesh_man.methods("createCurvedIllusionPlane").ignore
+
+    #AUTO_LEVEL?
+    mesh_man.methods("createBezierPatch").ignore
+
+    ##
+    # Mesh
+    ##
+    mesh = ogre.classes("Mesh")
+    mesh.methods("getEdgeList").ignore
+    mesh.methods("hasEdgeList").ignore
+    mesh.methods("getPoseList").ignore
+    mesh.methods("getPoseIterator").ignore
+    mesh.methods("getSubMeshNameMap").ignore
+    mesh.methods("getBoneAssignments").ignore
+    mesh.methods("getBoneAssignmentsIterator").ignore
+    mesh.methods("getSubMeshIterator").ignore
+    mesh.variables.ignore
+
+    # Some weird const const thing going on w/ this method, ignore for now
+    mesh.methods("softwareVertexBlend").ignore
 
     ## 
     # MeshSerializer
@@ -376,10 +439,27 @@ END
     ogre.classes.find(:name => "ParamDictionary").disable_typedef_lookup
 
     ##
+    # StringInterface
+    ##
+    ogre.classes("StringInterface").ignore
+
+    ##
+    # StringUtil
+    ##
+    ogre.classes("StringUtil").ignore
+
+    ##
     # UTFString
     ##
     utf = ogre.classes("UTFString")
     utf.classes.ignore
+
+    ##
+    # DisplayString
+    ##
+    # Implement as a to_ruby<Ogre::DisplayString>, don't need to wrap
+    # this class.
+    ogre.classes("DisplayString").ignore
 
     ##
     # Radix Sort
@@ -405,12 +485,6 @@ END
     # type yet so ignore for now
     ogre.classes("AnimableValue").ignore
 
-    ##
-    # Billboard
-    ##
-    # Is incomplete, a forward friend declaration
-    ogre.structs("BillboardParticleRenderer").ignore
-
     ## 
     # Skeleton
     ##
@@ -421,7 +495,6 @@ END
     # ShadowCaster
     ##
     shadow_caster = ogre.classes("ShadowCaster")
-    shadow_caster.methods("getShadowVolumeRenderableIterator").ignore
     shadow_caster.methods("getEdgeList").ignore
     shadow_caster.methods("hasEdgeList").ignore
 
@@ -429,7 +502,6 @@ END
     # Renderable
     ##
     renderable = ogre.classes("Renderable")
-    renderable.methods("getLights").ignore
     renderable.methods("getCustomParameter").ignore
     renderable.methods("setCustomParameter").ignore
     renderable.methods("getUserAny").ignore
@@ -439,7 +511,6 @@ END
     # ShadowRenderable
     ##
     sr = ogre.classes("ShadowRenderable")
-    sr.methods("getLights").ignore
 
     ##
     # MaterialScriptProgramDefinition
@@ -462,6 +533,125 @@ END
     # Function type is weird. Clamp<float>_func_type ?
     math.methods("clamp").ignore
 
+    ##
+    # Pass
+    ##
+    pass = ogre.classes("Pass")
+    pass.methods("getDirtyHashList").ignore
+    pass.methods("getPassGraveyard").ignore
+
+    ##
+    # Technique
+    ##
+    technique = ogre.classes("Technique")
+    technique.methods("getGPUDeviceNameRuleIterator").ignore
+    technique.methods.find(:name => /Iterator$/).ignore
+
+    ##
+    # ConfigFile
+    ##
+    # Probably going to leave this one out, reimplement
+    # it in Ruby
+    ogre.classes("ConfigFile").ignore
+
+    ##
+    # ConfigOption
+    ##
+    co = ogre.structs("ConfigOption")
+    co.variables("possibleValues").ignore
+
+    ##
+    # Matrix3
+    ##
+    m3 = ogre.classes("Matrix3")
+    m3.use_constructor m3.constructors.find(:arguments => [])
+
+    ##
+    # Matrix4
+    ##
+    m4 = ogre.classes("Matrix4")
+    m4.use_constructor m4.constructors.find(:arguments => [])
+
+    ##
+    # VertexElement
+    ##
+    ve = ogre.classes("VertexElement")
+    ve.methods("baseVertexPointerToElement").ignore
+
+    # Ignore the IO Stream classes for now
+    ogre.classes("FileStreamDataStream").ignore
+    ogre.classes("FileHandleDataStream").ignore
+
+    ##
+    # SceneQuery
+    ##
+    scene_query = ogre.classes("SceneQuery").ignore
+    scene_query.structs.ignore
+
+    ##
+    # RaySceneQuery
+    ##
+    ray_scene_query = ogre.classes("RaySceneQuery").ignore
+    ray_scene_query.methods("execute").ignore
+    ray_scene_query.methods("getLastResults").ignore
+
+    ##
+    # SceneQueryResult
+    ##
+    ogre.classes("SceneQueryResult").ignore
+
+    ##
+    # IntersectionSceneQueryResult
+    ##
+    ogre.structs("IntersectionSceneQueryResult").ignore
+
+    ##
+    # GpuProgramParameters
+    ##
+    gpu_params = ogre.classes("GpuProgramParameters")
+    gpu_params.classes.ignore
+
+    ##
+    # Pose
+    ##
+    pose = ogre.classes("Pose")
+    pose.methods("getVertexOffsets").ignore
+    pose.methods("getVertexOffsetIterator").ignore
+
+    ##
+    # PatchSurface
+    ##
+    patch_surface = ogre.classes("PatchSurface")
+    patch_surface.methods("getControlPointBuffer").ignore
+    patch_surface.methods("defineSurface").ignore
+
+    ##
+    # EdgeData
+    ##
+    edge_data = ogre.classes("EdgeData")
+    edge_data.structs.ignore
+
+    ##
+    # InstancedGeometery
+    ##
+    ig = ogre.classes("InstancedGeometry")
+    ig.methods.find(:name => /Iterator$/).ignore
+    ig.methods("getRenderOperationVector").ignore
+    ig.methods("getBaseAnimationState").ignore
+    ig.classes.ignore
+    ig.structs.ignore
+
+    ##
+    # GpuProgramManager
+    ##
+    gpu_m = ogre.classes("GpuProgramManager")
+    gpu_m.methods("getSupportedSyntax").ignore
+
+    ##
+    # CompositorChain
+    ##
+    comp_chain = ogre.classes("CompositorChain")
+    comp_chain.methods("getCompsitors").ignore
 
     # The following are typedef-finding stl structs, disable the typedef lookup
     %w(Vector4 ParameterDef VertexElement).each do |klass|
