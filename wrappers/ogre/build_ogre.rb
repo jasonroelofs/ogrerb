@@ -75,6 +75,9 @@ Extension.new "ogre" do |e|
     root.methods("installPlugin").ignore
     root.methods("uninstallPlugin").ignore
 
+    root.methods("getInstalledPlugins").ignore
+    root.methods("getAvailableRenderers").ignore
+
     ##
     # NedAlloc
     ##
@@ -85,6 +88,7 @@ Extension.new "ogre" do |e|
     # Any
     ##
     ogre.classes.find(:name => /Any/).ignore
+    ogre.classes("Any").ignore
 
     ##
     # ResourceManager
@@ -388,6 +392,16 @@ END
     ogre.classes.find(:name => /ControllerFunction/).ignore
 
     ##
+    # ControllerManager
+    ##
+    cm = ogre.classes("ControllerManager")
+    cm.methods("getPassthroughControllerFunction").ignore
+    cm.methods("createFrameTimePassthroughController").ignore
+    cm.methods("createController").ignore
+    cm.methods("getFrameTimeSource").ignore
+    cm.methods.find(:name => /^create/).ignore
+
+    ##
     # AllocPolicy classes
     ##
     ogre.classes.find(:name => /AllocPolicy/).ignore
@@ -413,6 +427,11 @@ END
     mesh_man.methods("createBezierPatch").ignore
 
     ##
+    # ProgressiveMesh
+    ##
+    ogre.classes("ProgressiveMesh").ignore
+
+    ##
     # Mesh
     ##
     mesh = ogre.classes("Mesh")
@@ -428,6 +447,20 @@ END
 
     # Some weird const const thing going on w/ this method, ignore for now
     mesh.methods("softwareVertexBlend").ignore
+
+    ##
+    # PatchMesh
+    ##
+    ogre.classes("PatchMesh").ignore
+
+    ##
+    # SubMesh
+    ##
+    sub_mesh = ogre.classes("SubMesh")
+    sub_mesh.methods("getBoneAssignments").ignore
+    sub_mesh.variables("extremityPoints").ignore
+    sub_mesh.variables("mLodFaceList").ignore
+    sub_mesh.variables("blendIndexToBoneIndexMap").ignore
 
     ## 
     # MeshSerializer
@@ -446,6 +479,16 @@ END
     ##
     ogre.classes.find(:name => /Singleton/).ignore
 
+    ##
+    # Archive
+    ##
+    archive = ogre.classes("Archive")
+    archive.methods("list").ignore
+    archive.methods("find").ignore
+    archive.methods("open").ignore
+    archive.methods("listFileInfo").ignore
+    archive.methods("findFileInfo").ignore
+
     ## 
     # ParameterList
     ##
@@ -454,12 +497,24 @@ END
     ##
     # ParamDictionary
     ##
-    ogre.classes.find(:name => "ParamDictionary").disable_typedef_lookup
+    pd = ogre.classes.find(:name => "ParamDictionary")
+    pd.disable_typedef_lookup
+    pd.methods("getParameters").ignore
+
+    ##
+    # ParamCommand
+    ##
+    ogre.classes("ParamCommand").ignore
 
     ##
     # StringInterface
     ##
     ogre.classes("StringInterface").ignore
+
+    ##
+    # StringConverter
+    ##
+    ogre.classes("StringConverter").ignore
 
     ##
     # StringUtil
@@ -487,6 +542,14 @@ END
     ##
     tus = ogre.classes("TextureUnitState")
     tus.structs("TextureEffect").disable_typedef_lookup
+
+    ##
+    # Animation
+    ##
+    anim = ogre.classes("Animation")
+    anim.methods("getVertexTrackList").ignore
+    anim.methods("getNumericTrackList").ignore
+    anim.methods("getNodeTrackList").ignore
 
     ##
     # Animable
@@ -575,6 +638,12 @@ END
     technique.methods.find(:name => /Iterator$/).ignore
 
     ##
+    # GPUProgramParameters
+    ##
+    gpp = ogre.classes("GPUProgramParameters")
+    gpp.methods.find(:name => /ConstantList$/).ignore
+
+    ##
     # ConfigFile
     ##
     # Probably going to leave this one out, reimplement
@@ -607,7 +676,13 @@ END
     # Ignore the IO Stream classes for now
     ogre.classes("FileStreamDataStream").ignore
     ogre.classes("FileHandleDataStream").ignore
+    ogre.classes("MemoryDataStream").ignore
     ogre.classes("DataStream").ignore
+
+    ##
+    # DataSource classes
+    ##
+    ogre.classes.find(:name => /DataSource$/).ignore
 
     ##
     # SceneQuery
@@ -645,6 +720,17 @@ END
     gpu_params.classes.ignore
 
     ##
+    # GpuNamedConstants
+    ##
+    gnc = ogre.classes("GpuNamedConstants")
+    gnc.variables("map").ignore
+
+    ##
+    # GpuLogicalBufferStruct
+    ##
+    ogre.structs("GpuLogicalBufferStruct").variables.ignore
+
+    ##
     # Pose
     ##
     pose = ogre.classes("Pose")
@@ -666,6 +752,12 @@ END
     edge_data.variables.ignore
 
     ##
+    # VertexData
+    ##
+    vertex_data = ogre.classes("VertexData")
+    vertex_data.variables.ignore
+
+    ##
     # InstancedGeometery
     ##
     ig = ogre.classes("InstancedGeometry")
@@ -674,6 +766,14 @@ END
     ig.methods("getBaseAnimationState").ignore
     ig.classes.ignore
     ig.structs.ignore
+
+    ##
+    # StaticGeometry
+    ##
+    sg = ogre.classes("StaticGeometry")
+    sg.methods("getShadowRenderableList").ignore
+    sg.classes.ignore
+    sg.structs.ignore
 
     ##
     # GpuProgramManager
@@ -700,6 +800,23 @@ END
     render_system.methods("getRenderSystemEvents").ignore
     render_system.methods("getConfigOptions").ignore
     render_system.methods("_setSurfaceParams").ignore
+
+    ##
+    # RenderSystemCapabilities
+    ##
+    ogre.classes("RenderSystemCapabilities").ignore
+
+    ##
+    # TextureManager
+    ##
+    tm = ogre.classes("TextureManager")
+    # The following methods aren't getting the default
+    # argument constants wrapped right
+    tm.methods("prepare").ignore
+    tm.methods("load").ignore
+    tm.methods("loadImage").ignore
+    tm.methods("loadRawData").ignore
+    tm.methods("createManual").ignore
 
     ##
     # TextureUnitState
@@ -757,6 +874,11 @@ END
     pixel_box = ogre.classes("PixelBox")
     pixel_box.use_constructor pixel_box.constructors.find(:arguments => [])
     pixel_box.variables("data").ignore
+
+    ##
+    # PixelUtil
+    ##
+    ogre.classes("PixelUtil").ignore
 
     ##
     # VertexPoseKeyFrame
