@@ -52,19 +52,19 @@ Extension.new "ogre" do |e|
     klass.methods.find(:all, :name => "getLights").ignore
 
     ## Incomplete types
-    ogre.structs("BillboardParticleRenderer").ignore
-    ogre.classes("RenderSystemCapabilitiesSerializer").ignore
-    ogre.structs("ArchiveFactory").ignore
-    ogre.structs("MemoryManager").ignore
-    ogre.structs("ScriptCompiler").ignore
-    ogre.structs("Factory").ignore
-    ogre.structs("ParticleSystemRenderer").ignore
-    ogre.structs("DynLib").ignore
-    ogre.structs("ConfigDialog").ignore
-    ogre.structs("TagPoint").ignore
-    ogre.structs("ParticleAffectorFactory").ignore
-    ogre.structs("WireBoundingBox").ignore
-    ogre.structs("Codec").ignore
+#    ogre.structs("BillboardParticleRenderer").ignore
+#    ogre.structs("RenderSystemCapabilitiesSerializer").ignore
+#    ogre.structs("ArchiveFactory").ignore
+#    ogre.structs("MemoryManager").ignore
+#    ogre.structs("ScriptCompiler").ignore
+#    ogre.structs("Factory").ignore
+#    ogre.structs("ParticleSystemRenderer").ignore
+#    ogre.structs("DynLib").ignore
+#    ogre.structs("ConfigDialog").ignore
+#    ogre.structs("TagPoint").ignore
+#    ogre.structs("ParticleAffectorFactory").ignore
+#    ogre.structs("WireBoundingBox").ignore
+#    ogre.structs("Codec").ignore
 
     ##
     #  Root
@@ -80,6 +80,18 @@ Extension.new "ogre" do |e|
     ##
     ogre.classes("NedAllocImpl").ignore
     ogre.classes("NedAllocPolicy").ignore
+
+    ##
+    # Any
+    ##
+    ogre.classes.find(:name => /Any/).ignore
+
+    ##
+    # ResourceManager
+    ##
+    rm = ogre.classes("ResourceManager")
+    rm.methods("getScriptPatterns").ignore
+    rm.methods("createOrRetrieve").ignore
 
     ##
     # ResourceGroupManager
@@ -144,6 +156,12 @@ END
 
     rw.methods("isVisible").wrap_as("visible?")
     rw.methods("setVisible").wrap_as("visible=")
+
+    ##
+    # MultiRenderTarget
+    ##
+    mrt = ogre.classes("MultiRenderTarget")
+    mrt.methods("getBoundSurfaceList").ignore
 
     ##
     # SceneManager
@@ -399,12 +417,12 @@ END
     ##
     mesh = ogre.classes("Mesh")
     mesh.methods("getEdgeList").ignore
-    mesh.methods("hasEdgeList").ignore
+#    mesh.methods("hasEdgeList").ignore
     mesh.methods("getPoseList").ignore
     mesh.methods("getPoseIterator").ignore
     mesh.methods("getSubMeshNameMap").ignore
     mesh.methods("getBoneAssignments").ignore
-    mesh.methods("getBoneAssignmentsIterator").ignore
+    mesh.methods("getBoneAssignmentIterator").ignore
     mesh.methods("getSubMeshIterator").ignore
     mesh.variables.ignore
 
@@ -451,15 +469,8 @@ END
     ##
     # UTFString
     ##
-    utf = ogre.classes("UTFString")
-    utf.classes.ignore
-
-    ##
-    # DisplayString
-    ##
-    # Implement as a to_ruby<Ogre::DisplayString>, don't need to wrap
-    # this class.
-    ogre.classes("DisplayString").ignore
+    # This should be a to_ruby<UTFString>() => String
+    ogre.classes("UTFString").ignore
 
     ##
     # Radix Sort
@@ -519,6 +530,11 @@ END
     mspd.variables("customParameters").ignore
 
     ##
+    # MaterialScriptContext
+    ##
+    ogre.structs("MaterialScriptContext").variables.ignore
+
+    ##
     # ParticleSystem
     ##
     particle_system = ogre.classes("ParticleSystem")
@@ -526,12 +542,23 @@ END
     particle_system.classes.ignore
 
     ##
+    # ParticleSystemManager
+    ##
+    psm = ogre.classes("ParticleSystemManager")
+    psm.methods("_createRenderer").ignore
+    psm.methods("_destroyRenderer").ignore
+    psm.methods("addEmitterFactory").ignore
+    psm.methods("addAffectorFactory").ignore
+    psm.methods("addRendererFactory").ignore
+    psm.methods("getScriptPatterns").ignore
+
+    ##
     # Math
     ##
     math = ogre.classes("Math")
     math.methods("intersects").ignore
     # Function type is weird. Clamp<float>_func_type ?
-    math.methods("clamp").ignore
+    math.methods.find(:name => /Clamp/).ignore
 
     ##
     # Pass
@@ -557,8 +584,7 @@ END
     ##
     # ConfigOption
     ##
-    co = ogre.structs("ConfigOption")
-    co.variables("possibleValues").ignore
+    ogre.structs("_ConfigOption").ignore
 
     ##
     # Matrix3
@@ -581,29 +607,36 @@ END
     # Ignore the IO Stream classes for now
     ogre.classes("FileStreamDataStream").ignore
     ogre.classes("FileHandleDataStream").ignore
+    ogre.classes("DataStream").ignore
 
     ##
     # SceneQuery
     ##
-    scene_query = ogre.classes("SceneQuery").ignore
-    scene_query.structs.ignore
+#    scene_query = ogre.classes("SceneQuery")
+#    scene_query.structs.ignore
 
     ##
     # RaySceneQuery
     ##
-    ray_scene_query = ogre.classes("RaySceneQuery").ignore
-    ray_scene_query.methods("execute").ignore
-    ray_scene_query.methods("getLastResults").ignore
+#    ray_scene_query = ogre.classes("RaySceneQuery")
+#    ray_scene_query.methods("execute").ignore
+#    ray_scene_query.methods("getLastResults").ignore
 
     ##
     # SceneQueryResult
     ##
-    ogre.classes("SceneQueryResult").ignore
+#    ogre.structs("SceneQueryResult").ignore
 
     ##
     # IntersectionSceneQueryResult
     ##
-    ogre.structs("IntersectionSceneQueryResult").ignore
+#    isqr = ogre.structs("IntersectionSceneQueryResult")
+#    isqr.variables.ignore
+
+    ##
+    # SceneQuery ... ignore all!
+    ##
+    ogre.classes(:name => /SceneQuery/).ignore
 
     ##
     # GpuProgramParameters
@@ -630,6 +663,7 @@ END
     ##
     edge_data = ogre.classes("EdgeData")
     edge_data.structs.ignore
+    edge_data.variables.ignore
 
     ##
     # InstancedGeometery
@@ -651,7 +685,118 @@ END
     # CompositorChain
     ##
     comp_chain = ogre.classes("CompositorChain")
-    comp_chain.methods("getCompsitors").ignore
+    comp_chain.methods("getCompositors").ignore
+
+    ##
+    # CompositorInstance
+    ##
+    ci = ogre.classes("CompositorInstance")
+    ci.structs("TargetOperation").variables.ignore
+
+    ##
+    # RenderSystem
+    ##
+    render_system = ogre.classes("RenderSystem")
+    render_system.methods("getRenderSystemEvents").ignore
+    render_system.methods("getConfigOptions").ignore
+    render_system.methods("_setSurfaceParams").ignore
+
+    ##
+    # TextureUnitState
+    ##
+    tus = ogre.classes("TextureUnitState")
+    tus.methods("getTextureDimensions").ignore
+    tus.methods("getEffects").ignore
+
+    # Another const const
+    tus.methods("setCubicTextureName").ignore
+    tus.methods("setAnimatedTextureName").ignore
+
+    ##
+    # ScriptLoader
+    ##
+    ogre.classes("ScriptLoader").ignore
+
+    ##
+    # PlaneBoundedVolume
+    ##
+    ogre.classes("PlaneBoundedVolume").variables.ignore
+
+    ##
+    # CompositionTechnique
+    ##
+    ct = ogre.classes("CompositionTechnique")
+    ct.structs("TextureDefinition").variables("formatList").ignore
+
+    ##
+    # VertexDeclaration
+    ##
+    vd = ogre.classes("VertexDeclaration")
+    vd.methods("getElements").ignore
+    vd.methods("findElementsBySource").ignore
+
+    ##
+    # OverlayManager
+    ##
+    om = ogre.classes("OverlayManager")
+    om.methods("addOverlayElementFactory").ignore # incomplete type
+    om.methods("getOverlayElementFactoryMap").ignore 
+    om.methods("getScriptPatterns").ignore 
+    om.methods("parseScript").ignore 
+
+    ##
+    # RenderQueueInvocationSequence
+    ##
+    rqis = ogre.classes("RenderQueueInvocationSequence")
+    rqis.methods("iterator").ignore
+
+    ##
+    # PixelBox
+    ##
+    # Lots of void* in this class
+    pixel_box = ogre.classes("PixelBox")
+    pixel_box.use_constructor pixel_box.constructors.find(:arguments => [])
+    pixel_box.variables("data").ignore
+
+    ##
+    # VertexPoseKeyFrame
+    ##
+    vpkf = ogre.classes("VertexPoseKeyFrame")
+    vpkf.methods("getPoseReferences").ignore
+
+    ##
+    # Buffer Classes
+    ##
+    hardware_buffer = ogre.classes("HardwareBuffer")
+    hardware_buffer.methods("lock").ignore
+    # void*
+    hardware_buffer.methods("readData").ignore
+    hardware_buffer.methods("writeData").ignore
+
+    hardware_pixel_buffer = ogre.classes("HardwarePixelBuffer")
+    hardware_pixel_buffer.methods("lock").ignore
+    # void*
+    hardware_pixel_buffer.methods("readData").ignore
+    hardware_pixel_buffer.methods("writeData").ignore
+
+    ##
+    # VertexBufferBinding
+    ##
+    vbb = ogre.classes("VertexBufferBinding")
+    vbb.methods("getBindings").ignore
+
+    ##
+    # PSSMShadowCameraSetup
+    ##
+    pcs = ogre.classes("PSSMShadowCameraSetup")
+    pcs.methods("getSplitPoints").ignore
+
+    ##
+    # Timer
+    ##
+    timer = ogre.classes("Timer")
+    # void*
+    timer.methods("setOption").ignore
 
     # The following are typedef-finding stl structs, disable the typedef lookup
     %w(Vector4 ParameterDef VertexElement).each do |klass|
