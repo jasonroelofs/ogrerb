@@ -18,6 +18,7 @@ const std::string* from_ruby<const std::string*>(Rice::Object x);
 /**
  * Ogre's Singleton classes, handle to_/from_ruby conversions
  */
+/*
 template<>
 Rice::Object to_ruby<Ogre::Root>(const Ogre::Root& r);
 
@@ -29,16 +30,18 @@ Rice::Object to_ruby<Ogre::TextureManager>(const Ogre::TextureManager& r);
 
 template<>
 Rice::Object to_ruby<Ogre::LogManager>(const Ogre::LogManager& r);
-
+*/
 /**
  * End Singletons
  */
 
 
+/*
 template<>
 Rice::Object to_ruby<Ogre::ViewPoint >(Ogre::ViewPoint const & a);
 
 template<>
 Rice::Object to_ruby<Ogre::FrameEvent >(const Ogre::FrameEvent& a);
+*/
 
 #endif

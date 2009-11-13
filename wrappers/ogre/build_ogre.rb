@@ -79,6 +79,12 @@ Extension.new "ogre" do |e|
     root.methods("getAvailableRenderers").ignore
 
     ##
+    # Exception
+    ##
+    # We'll install our own exception handler
+    ogre.classes.find(:name => /Exception/).ignore
+
+    ##
     # NedAlloc
     ##
     ogre.classes("NedAllocImpl").ignore
@@ -326,6 +332,8 @@ END
     mo = ogre.classes("MovableObject")
     mo.methods("queryLights").ignore
     mo.methods("_getLightList").ignore
+    mo.methods("getUserAny").ignore
+    mo.methods("setUserAny").ignore
 
     # STL
     mo.methods("getEdgeList").ignore
@@ -547,9 +555,12 @@ END
     # Animation
     ##
     anim = ogre.classes("Animation")
-    anim.methods("getVertexTrackList").ignore
-    anim.methods("getNumericTrackList").ignore
-    anim.methods("getNodeTrackList").ignore
+    anim.methods("_getVertexTrackList").ignore
+    anim.methods("getVertexTrackIterator").ignore
+    anim.methods("_getNumericTrackList").ignore
+    anim.methods("getNumericTrackIterator").ignore
+    anim.methods("_getNodeTrackList").ignore
+    anim.methods("getNodeTrackIterator").ignore
 
     ##
     # Animable
@@ -640,8 +651,8 @@ END
     ##
     # GPUProgramParameters
     ##
-    gpp = ogre.classes("GPUProgramParameters")
-    gpp.methods.find(:name => /ConstantList$/).ignore
+    gpp = ogre.classes("GpuProgramParameters")
+    gpp.methods.find(:name => /ConstantList/).ignore
 
     ##
     # ConfigFile
@@ -685,33 +696,10 @@ END
     ogre.classes.find(:name => /DataSource$/).ignore
 
     ##
-    # SceneQuery
+    # SceneQuery ... ignore all of them
     ##
-#    scene_query = ogre.classes("SceneQuery")
-#    scene_query.structs.ignore
-
-    ##
-    # RaySceneQuery
-    ##
-#    ray_scene_query = ogre.classes("RaySceneQuery")
-#    ray_scene_query.methods("execute").ignore
-#    ray_scene_query.methods("getLastResults").ignore
-
-    ##
-    # SceneQueryResult
-    ##
-#    ogre.structs("SceneQueryResult").ignore
-
-    ##
-    # IntersectionSceneQueryResult
-    ##
-#    isqr = ogre.structs("IntersectionSceneQueryResult")
-#    isqr.variables.ignore
-
-    ##
-    # SceneQuery ... ignore all!
-    ##
-    ogre.classes(:name => /SceneQuery/).ignore
+    ogre.classes.find(:name => /SceneQuery/).ignore
+    ogre.structs.find(:name => /SceneQuery/).ignore
 
     ##
     # GpuProgramParameters
@@ -722,7 +710,7 @@ END
     ##
     # GpuNamedConstants
     ##
-    gnc = ogre.classes("GpuNamedConstants")
+    gnc = ogre.structs("GpuNamedConstants")
     gnc.variables("map").ignore
 
     ##
@@ -771,7 +759,6 @@ END
     # StaticGeometry
     ##
     sg = ogre.classes("StaticGeometry")
-    sg.methods("getShadowRenderableList").ignore
     sg.classes.ignore
     sg.structs.ignore
 
@@ -791,7 +778,7 @@ END
     # CompositorInstance
     ##
     ci = ogre.classes("CompositorInstance")
-    ci.structs("TargetOperation").variables.ignore
+    ci.classes("TargetOperation").variables.ignore
 
     ##
     # RenderSystem
@@ -843,7 +830,7 @@ END
     # CompositionTechnique
     ##
     ct = ogre.classes("CompositionTechnique")
-    ct.structs("TextureDefinition").variables("formatList").ignore
+    ct.classes("TextureDefinition").variables("formatList").ignore
 
     ##
     # VertexDeclaration
@@ -860,6 +847,14 @@ END
     om.methods("getOverlayElementFactoryMap").ignore 
     om.methods("getScriptPatterns").ignore 
     om.methods("parseScript").ignore 
+
+    ##
+    # OverlayElement
+    ##
+    oe = ogre.classes("OverlayElement")
+
+    # Needs the DisplayString to_ruby defined
+    oe.methods("getCaption").ignore
 
     ##
     # RenderQueueInvocationSequence
@@ -885,6 +880,13 @@ END
     ##
     vpkf = ogre.classes("VertexPoseKeyFrame")
     vpkf.methods("getPoseReferences").ignore
+
+    ##
+    # NumericKeyFrame
+    ##
+    nkf = ogre.classes("NumericKeyFrame")
+    nkf.methods("getValue").ignore
+    nkf.methods("setValue").ignore
 
     ##
     # Buffer Classes

@@ -19,6 +19,7 @@ const std::string* from_ruby<const std::string*>(Rice::Object x) {
  * Ogre's Singleton classes, handle to_/from_ruby conversions
  */
 
+/*
 template<>
 Rice::Object to_ruby<Ogre::Root>(const Ogre::Root& r) {
   return Rice::Data_Object<Ogre::Root>(Ogre::Root::getSingletonPtr(), Rice::Data_Type<Ogre::Root>::klass(), 0, 0); 
@@ -38,12 +39,14 @@ template<>
 Rice::Object to_ruby<Ogre::LogManager>(const Ogre::LogManager& r) {
   return Rice::Data_Object<Ogre::LogManager>(Ogre::LogManager::getSingletonPtr(), Rice::Data_Type<Ogre::LogManager>::klass(), 0, 0); 
 }
+*/
 
 /**
  * End Singletons
  */
 
 
+/*
 template<>
 Rice::Object to_ruby<Ogre::ViewPoint >(Ogre::ViewPoint const & a) {
 	return Rice::Data_Object<Ogre::ViewPoint >((Ogre::ViewPoint *)&a, Rice::Data_Type<Ogre::ViewPoint >::klass(), 0, 0);
@@ -53,3 +56,4 @@ template<>
 Rice::Object to_ruby<Ogre::FrameEvent >(const Ogre::FrameEvent& a) {
 	return Rice::Data_Object<Ogre::FrameEvent >((Ogre::FrameEvent *)&a, Rice::Data_Type<Ogre::FrameEvent >::klass(), 0, 0);
 }
+*/
