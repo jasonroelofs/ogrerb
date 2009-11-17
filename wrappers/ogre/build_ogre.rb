@@ -51,21 +51,6 @@ Extension.new "ogre" do |e|
     klass.methods.find(:all, :name => /Iterator$/).ignore
     klass.methods.find(:all, :name => "getLights").ignore
 
-    ## Incomplete types
-#    ogre.structs("BillboardParticleRenderer").ignore
-#    ogre.structs("RenderSystemCapabilitiesSerializer").ignore
-#    ogre.structs("ArchiveFactory").ignore
-#    ogre.structs("MemoryManager").ignore
-#    ogre.structs("ScriptCompiler").ignore
-#    ogre.structs("Factory").ignore
-#    ogre.structs("ParticleSystemRenderer").ignore
-#    ogre.structs("DynLib").ignore
-#    ogre.structs("ConfigDialog").ignore
-#    ogre.structs("TagPoint").ignore
-#    ogre.structs("ParticleAffectorFactory").ignore
-#    ogre.structs("WireBoundingBox").ignore
-#    ogre.structs("Codec").ignore
-
     ##
     #  Root
     ##
@@ -648,6 +633,10 @@ END
     technique.methods("getGPUDeviceNameRuleIterator").ignore
     technique.methods.find(:name => /Iterator$/).ignore
 
+    # ostringstream?
+    technique.methods("checkHardwareSupport").ignore
+    technique.methods("checkGPURules").ignore
+
     ##
     # GPUProgramParameters
     ##
@@ -788,6 +777,9 @@ END
     render_system.methods("getConfigOptions").ignore
     render_system.methods("_setSurfaceParams").ignore
 
+    # RenderTarget is abstract
+    render_system.methods("attachRenderTarget").ignore
+
     ##
     # RenderSystemCapabilities
     ##
@@ -893,6 +885,10 @@ END
     ##
     hardware_buffer = ogre.classes("HardwareBuffer")
     hardware_buffer.methods("lock").ignore
+
+    # Abstract type issue
+    hardware_buffer.methods("copyData").ignore
+
     # void*
     hardware_buffer.methods("readData").ignore
     hardware_buffer.methods("writeData").ignore
@@ -921,6 +917,13 @@ END
     timer = ogre.classes("Timer")
     # void*
     timer.methods("setOption").ignore
+
+    ##
+    # ConvexBody
+    ##
+    # Has some dealings with Frustum and running into protected 
+    # constructor issues.
+    ogre.classes("ConvexBody").ignore
 
     # The following are typedef-finding stl structs, disable the typedef lookup
     %w(Vector4 ParameterDef VertexElement).each do |klass|
