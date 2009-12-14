@@ -279,6 +279,7 @@ END
     # Entity
     ##
     entity = ogre.classes("Entity")
+    entity.director
 
     # STL contianers
     entity.methods("getAllAnimationStates").ignore
@@ -315,6 +316,7 @@ END
     # MovableObject
     ##
     mo = ogre.classes("MovableObject")
+    mo.director
     mo.methods("queryLights").ignore
     mo.methods("_getLightList").ignore
     mo.methods("getUserAny").ignore
