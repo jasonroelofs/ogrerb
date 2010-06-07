@@ -1,3 +1,17 @@
+class Platform
+  def self.mac?
+    RUBY_PLATFORM =~ /darwin/
+  end
+
+  def self.linux?
+    !self.mac? && !self.windows?
+  end
+
+  def self.windows?
+    RUBY_PLATFORM =~ /(mswin|cygwin)/
+  end
+end
+
 #
 # Ogre.rb wrapper definition helper system
 # This provides a rake-ish DSL for defining how to
@@ -13,7 +27,7 @@ class Wrapper
   def build(&block)
     @build_block = block
   end
-  
+
   def patch(*patches)
     @patches = patches
   end
@@ -35,6 +49,66 @@ class Wrapper
 
 end
 
+# Handles figuring out environment and platform variables
+class Opts
+  attr_accessor :prefix
+
+  def initialize(opts = {})
+    @prefix = opts.delete(:prefix)
+    @build_block = opts.delete(:build)
+
+    @build_block.call(self)
+  end
+
+  def build
+    if Platform.mac?
+      @mac_build.call
+    elsif Platform.windows?
+      @windows_build.call
+    else
+      @linux_build.call
+    end
+  end
+
+  ##
+  # Mac specific helpers
+  ##
+
+  SDK_BASE = "/Developer/SDKs"
+
+  # Find out what the latest SDK is sitting in
+  # /Developer/SDKs and return the full path to it
+  def latest_sdk
+    Dir["#{SDK_BASE}/*.sdk"].sort.last
+  end
+
+  ##
+  # *Nix specific helpers
+  ##
+
+  ##
+  # Windows specific helpers
+  ##
+
+  ##
+  # The following define build block steps for the
+  # appropriate platform
+  ##
+
+  def mac(&block)
+    @mac_build = block
+  end
+
+  def linux(&block)
+    @linux_build = block
+  end
+
+  def windows(&block)
+    @windows_build = block
+  end
+end
+
+
 def ogrerb_path(*args)
   File.join(OGRE_RB_ROOT, *args)
 end
@@ -49,7 +123,7 @@ def wrapper(lib)
     desc "Clean up #{library}"
     task :clean do
       rm_rf ogrerb_path("tmp", library)
-      rm ogrerb_path("tmp", "downloads", "#{wrapper.download}*")
+      rm ogrerb_path("tmp", "downloads", "#{library}*")
     end
 
     desc "Download, build, and install the #{library} library. Installs into #{OGRE_RB_ROOT}/lib/usr"
@@ -67,7 +141,10 @@ def wrapper(lib)
         # Patch / Build / install
         cd library do
           wrapper.process_patches if wrapper.patches
-          wrapper.build_block.call(ogrerb_path("lib", "usr"))
+          Opts.new(
+            :prefix => ogrerb_path("lib", "usr"),
+            :build => wrapper.build_block
+          ).build
         end
       end
     end

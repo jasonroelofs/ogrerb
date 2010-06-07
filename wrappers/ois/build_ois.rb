@@ -12,7 +12,14 @@ HERE_DIR = File.join(OGRE_RB_ROOT, "wrappers", "ois")
 Extension.new "ois" do |e|
   e.working_dir = File.join(OGRE_RB_ROOT, "generated", "ois")
 
-  e.sources File.join(OIS_DIR, "include", "OIS", "OIS.h"),
+  source_path =
+    if Platform.mac?
+      "OIS.h"
+    else
+      File.join(OIS_DIR, "include", "OIS", "OIS.h"),
+    end
+
+  e.sources source_path
     :include_source_dir => File.join(HERE_DIR, "code"),
     :library_paths => File.join(OIS_DIR, "lib"),
     # For our custom code in code/ to find OIS correctly
@@ -89,16 +96,16 @@ END
     node.structs("LIRCFactoryCreator").ignore
 
     # TODO Figure out if rb++ can handle this on it's own.
-    # When dealing with STL containers, typedef-ing can end 
+    # When dealing with STL containers, typedef-ing can end
     # up going both ways. We need to flag classes to not
     # do the reverse typedef lookup
     node.classes("Axis").disable_typedef_lookup
     node.classes("Vector3").disable_typedef_lookup
 
-    ## 
+    ##
     # JoyStickState
     ##
-    node.classes("JoyStickState").variables.ignore 
+    node.classes("JoyStickState").variables.ignore
 
     ##
     # Keyboard
