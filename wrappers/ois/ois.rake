@@ -5,7 +5,7 @@ wrapper :ois do |ois|
   ois.build do |opts|
     opts.mac do
       sh "xcodebuild -project Mac/XCode-2.2/OIS.xcodeproj -configuration Release -sdk #{opts.latest_sdk}"
-      sh "cp -R Mac/XCode-2.2/build/Release/OIS.Framework ~/Library/Frameworks "
+      sh "cp -r Mac/XCode-2.2/build/Release/OIS.Framework ~/Library/Frameworks "
     end
 
     opts.linux do
