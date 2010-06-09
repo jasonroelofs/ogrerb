@@ -3,3 +3,5 @@ generated
 website/_site
 publish
 lib/usr
+
+.DS_Store
