@@ -3,4 +3,5 @@ ogre/bin
 ogre/include
 ogre/lib
 ogre/*.so
-ois
+ois/*.so
+ois/*.bundle
