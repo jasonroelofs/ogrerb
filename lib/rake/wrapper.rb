@@ -123,7 +123,7 @@ def wrapper(lib)
     desc "Clean up #{library}"
     task :clean do
       rm_rf ogrerb_path("tmp", library)
-      rm ogrerb_path("tmp", "downloads", "#{wrapper.download}")
+      rm_f ogrerb_path("tmp", "downloads", "#{wrapper.download}")
     end
 
     desc "Download, build, and install the #{library} library. Installs into #{OGRE_RB_ROOT}/lib/usr"
