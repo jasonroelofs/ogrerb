@@ -10,8 +10,9 @@ OIS_DIR = File.join(OGRE_RB_ROOT, "lib", "usr")
 HERE_DIR = File.join(OGRE_RB_ROOT, "wrappers", "ois")
 
 if RUBY_PLATFORM =~ /darwin/
-  source_path = File.join(OIS_DIR, "OIS.Framework", "Headers", "OIS.h")
-  include_path = File.join(OIS_DIR, "OIS.Framework", "Headers")
+  framework_path = File.join(ENV["HOME"], "Library", "Frameworks", "OIS.Framework")
+  source_path = File.join(framework_path, "Headers", "OIS.h")
+  include_path = File.join(framework_path, "Headers")
   ldflags = "-framework OIS"
   library_path = nil
   libraries = nil
