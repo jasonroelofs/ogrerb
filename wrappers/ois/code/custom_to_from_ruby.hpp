@@ -4,7 +4,7 @@
 #include <rice/Object.hpp>
 #include <rice/Hash.hpp>
 #include <rice/to_from_ruby.hpp>
-#include "OIS/OIS.h"
+#include "OIS.h"
 
 template<>
 Rice::Object to_ruby<short int>(short int const & a);

@@ -9,23 +9,32 @@ OIS_DIR = File.join(OGRE_RB_ROOT, "lib", "usr")
 
 HERE_DIR = File.join(OGRE_RB_ROOT, "wrappers", "ois")
 
+if RUBY_PLATFORM =~ /darwin/
+  source_path = File.join(OIS_DIR, "OIS.Framework", "Headers", "OIS.h")
+  include_path = File.join(OIS_DIR, "OIS.Framework", "Headers")
+  ldflags = "-framework OIS"
+  library_path = nil
+  libraries = nil
+  generated = "ois.bundle"
+else
+  source_path = File.join(OIS_DIR, "include", "OIS", "OIS.h")
+  include_path = File.join(OIS_DIR, "include", "OIS")
+  ldflags = "-shared"
+  library_path = File.join(OIS_DIR, "lib")
+  libraries = "OIS"
+  generated = "ois.so"
+end
+
+
 Extension.new "ois" do |e|
   e.working_dir = File.join(OGRE_RB_ROOT, "generated", "ois")
 
-  source_path =
-    if Platform.mac?
-      "OIS.h"
-    else
-      File.join(OIS_DIR, "include", "OIS", "OIS.h"),
-    end
-
-  e.sources source_path
+  e.sources source_path,
     :include_source_dir => File.join(HERE_DIR, "code"),
-    :library_paths => File.join(OIS_DIR, "lib"),
-    # For our custom code in code/ to find OIS correctly
-    :include_paths => File.join(OIS_DIR, "include"),
-    :libraries => "OIS",
-    :ldflags => "-shared"
+    :library_paths => library_path,
+    :include_paths => include_path,
+    :libraries => libraries,
+    :ldflags => ldflags
 
   e.module "OIS" do |m|
     node = m.namespace "OIS"
@@ -48,6 +57,8 @@ Extension.new "ois" do |e|
     # EventArg#device returns an OIS::Object, which is abstract. Need to build
     # a custom handler around this if it's needed.
     node.classes("EventArg").variables("device").ignore
+
+    node.classes("EventArg").implicit_casting(false)
 
     # createInputObject requires C++ style casting of the return value. We can't do that,
     # so following with Python-Ogre, build some more explicit helpers to this method and
@@ -122,5 +133,6 @@ END
   end
 end
 
+
 # At completion, copy over the new ois extension
-FileUtils.cp File.join(OGRE_RB_ROOT, "generated", "ois", "ois.so"), File.join(OGRE_RB_ROOT, "lib", "ois")
+FileUtils.cp File.join(OGRE_RB_ROOT, "generated", "ois", generated), File.join(OGRE_RB_ROOT, "lib", "ois")
