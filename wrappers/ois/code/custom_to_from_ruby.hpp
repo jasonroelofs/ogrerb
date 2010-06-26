@@ -12,7 +12,4 @@ Rice::Object to_ruby<short int>(short int const & a);
 template<>
 OIS::ParamList& from_ruby<OIS::ParamList&>(Rice::Object x);
 
-template<>
-Rice::Object to_ruby<OIS::Axis >(OIS::Axis const & a);
-
 #endif
