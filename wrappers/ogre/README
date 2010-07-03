@@ -1,0 +1,9 @@
+Wrapping of the Ogre 3D rendering engine: www.ogre3d.org
+
+For compiling on Snow Leopard: all libraries have to have a 32-bit build as Ogre will only compile under 32-bit.
+
+Required libraries:
+ - zziblib
+ - freeimage
+ - cg
+ - boost

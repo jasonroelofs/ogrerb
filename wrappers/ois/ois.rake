@@ -1,6 +1,7 @@
 wrapper :ois do |ois|
-  ois.download_from = "http://downloads.sourceforge.net/wgois"
-  ois.download = "ois_1.2.0.tar.gz" 
+  OIS_DOWNLOAD = "ois_1.2.0.tar.gz" 
+  ois.download_from = "http://downloads.sourceforge.net/wgois/#{OIS_DOWNLOAD}"
+  ois.download = OIS_DOWNLOAD
   ois.unpack = "tar xzvf"
   ois.build do |opts|
     opts.mac do

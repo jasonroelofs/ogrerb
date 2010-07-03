@@ -133,15 +133,16 @@ def wrapper(lib)
         # Download
         cd "downloads" do
           unless File.exists?(wrapper.download)
-            sh "wget #{wrapper.download_from}/#{wrapper.download}"
+            sh "wget #{wrapper.download_from}"
           end
         end
 
-        # Unpack
-        sh "#{wrapper.unpack} downloads/#{wrapper.download}"
-
-        # Patch / Build / install
+        mkdir_p library unless File.directory?(library)
         cd library do
+          # Unpack
+          sh "#{wrapper.unpack} ../downloads/#{wrapper.download}"
+
+          # Patch / Build / install
           wrapper.process_patches if wrapper.patches
           Opts.new(
             :prefix => ogrerb_path("lib", "usr"),
