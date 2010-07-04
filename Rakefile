@@ -1,13 +1,17 @@
 #!/usr/bin/env ruby
+
+$: << File.expand_path(File.join("packages"), File.dirname(__FILE__))
+$: << File.expand_path(File.join("packages", "lib"), File.dirname(__FILE__))
+
 require 'rake/contrib/sshpublisher'
-require 'lib/rake/wrapper'
+require 'packages/lib/packages'
 
 # Setup some global Ogre.rb information
 OGRE_RB_ROOT = File.expand_path(File.dirname(__FILE__))
 
-# Need to run through the 'wrappers' dir, looking for wrapping projects
-# and setup rake tasks as needed
-Dir["wrappers/**/*.rake"].each { |f| load f }
+# Need to run through the 'packages' dir, running the package definitions
+# and building rake tasks as needed
+Packages.load_packages
 
 # Global ogre.rb tasks
 namespace :ogrerb do
