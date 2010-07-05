@@ -1,4 +1,4 @@
-package :ogre do |ogre|
+package :ogre => [:ogre_dependencies] do |ogre|
   OGRE_VERSION = "ogre_src_v1-7-1"
   OGRE_DOWNLOAD = "#{OGRE_VERSION}.tar.bz2"
 
@@ -9,19 +9,36 @@ package :ogre do |ogre|
   ogre.unpack_to = OGRE_VERSION
 
   ogre.build do |opts|
-    mkdir "build" unless File.directory?("build")
-    cd "build" do
-      # -DCMAKE_INSTALL_PREFIX:PATH=
-      generator = PLATFORM =~ /darwin/ ? "-G Xcode" : ""
-      use_prefix = PLATFORM =~ /darwin/ ? "~/Library/Frameworks" : opts.prefix
-      sh "cmake #{generator} ../ -DOGRE_INSTALL_PLUGINS_HEADERS=TRUE -DCMAKE_INSTALL_PREFIX:PATH=#{use_prefix}"
 
-      if PLATFORM =~ /darwin/
+    def build(generator, prefix)
+      mkdir "build" unless File.directory?("build")
+      cd "build" do
+        sh "cmake #{generator} ../ -DOGRE_INSTALL_PLUGINS_HEADERS=TRUE -DOGRE_BUILD_SAMPLES=FALSE -DOGRE_INSTALL_SAMPLES=FALSE -DOGRE_INSTALL_SAMPLES_SOURCE=FALSE -DCMAKE_INSTALL_PREFIX:PATH=#{prefix}"
+        yield
+      end
+    end
+
+    opts.mac do 
+      deps = Packages.find(:ogre_dependencies)
+      sh "cp -rf #{deps.build_dir}/Dependencies ../"
+
+      build("-G Xcode", opts.prefix) do
         sh "xcodebuild"
-      else
-        sh "make"
+        sh "xcodebuild -target install"
+      end
+    end
+
+    opts.linux do
+      build("", opts.prefix) do
         sh "make install"
       end
     end
+
+    opts.windows do
+      build("", opts.prefix) do
+        sh "make install"
+      end
+    end
+
   end
 end
